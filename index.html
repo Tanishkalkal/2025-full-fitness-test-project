@@ -6,6 +6,8 @@
     <title>SAI Talent Assessment</title>
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Custom font import for a cleaner look */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -156,6 +158,61 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        /* Styling for the new streak switch/slider */
+        #streak-slider-container {
+            background-color: #e5e7eb; /* bg-gray-200 */
+            padding: 0.25rem; /* p-1 */
+            border-radius: 9999px; /* rounded-full */
+            display: inline-flex;
+            align-items: center;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .streak-slider-btn {
+            padding: 0.5rem 1rem; /* py-2 px-4 */
+            border-radius: 9999px; /* rounded-full */
+            font-weight: 500; /* font-medium */
+            font-size: 0.875rem; /* text-sm */
+            color: #4b5563; /* text-gray-600 */
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            white-space: nowrap;
+        }
+
+        .streak-slider-btn.active {
+            background-color: #ffffff; /* bg-white */
+            color: #ea580c; /* text-orange-600 */
+            font-weight: 600; /* font-semibold */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced styles for streak day circles */
+        .streak-day {
+            transition: all 0.3s ease;
+        }
+        .streak-day.active {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+            color: white;
+            box-shadow: 0 4px 10px rgba(251, 146, 60, 0.4);
+            transform: scale(1.05);
+        }
+        
+        .graph-filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .graph-filter-btn.active {
+            background-color: #fb923c;
+            color: white;
+        }
+
+
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -392,7 +449,7 @@
                     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-4 sm:mb-0">
                         🔥 Daily Streak
                     </h2>
-                    <div id="streak-slider-container" class="bg-gray-200 p-1 rounded-full flex items-center space-x-1">
+                    <div id="streak-slider-container">
                         <!-- Slider buttons will be populated by JavaScript -->
                     </div>
                 </div>
@@ -411,32 +468,32 @@
             <section>
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Fitness Assignment test</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Sit-ups Card -->
-                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Sit-ups">
+                    <!-- Sit Ups Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Sit Ups">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M6.5 8.5a5 5 0 008 5.5l1.5-1.5a6 6 0 00-8-5.5"></path><path d="M12 12v9"></path><path d="M9 21h6"></path></svg>
-                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Sit-ups</h3>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Sit Ups</h3>
                         <p class="text-sm text-gray-500">Evaluate your core strength and abdominal endurance.</p>
                     </div>
 
-                    <!-- Pull-ups Card -->
-                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Pull-ups">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"></path><path d="M6 12v-2a4 4 0 014-4h4a4 4 0 014 4v2"></path><path d="M6 12v6a2 2 0 002 2h8a2 2 0 002-2v-6"></path></svg>
-                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Pull-ups</h3>
-                        <p class="text-sm text-gray-500">Test your upper body strength and muscular endurance.</p>
+                    <!-- Push Ups Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Push Ups">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 14a9 9 0 1 1-18 0"></path><path d="M12 22V10"></path><path d="m5 10 7-7 7 7"></path></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Push Ups</h3>
+                        <p class="text-sm text-gray-500">Assess your upper body strength and endurance.</p>
                     </div>
                     
-                    <!-- Vertical Jump Card -->
-                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Vertical Jump">
+                    <!-- Vertical Height Jump Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Vertical Height Jump">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-orange-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3L5 21"/><path d="M19 3L19 21"/><path d="M12 13L12 5"/><path d="M9 8L12 5L15 8"/></svg>
-                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Vertical Jump</h3>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Vertical Height Jump</h3>
                         <p class="text-sm text-gray-500">Measure your explosive leg power and jumping height.</p>
                     </div>
 
-                    <!-- Height Card -->
-                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Height">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L3 8.4a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0L12 5.3"/><path d="m15 12 6-6"/><path d="m11 10 2-2"/><path d="m16 5 2-2"/><path d="m6 15 2-2"/></svg>
-                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Height</h3>
-                        <p class="text-sm text-gray-500">Measure your standing height accurately.</p>
+                    <!-- Sit and Reach Test Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Sit and Reach">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22h20"/><path d="M7 22V12l5-2h3l5 4v6"/><circle cx="12" cy="7" r="2"/><path d="M15 10h5"/></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Sit and Reach Test</h3>
+                        <p class="text-sm text-gray-500">Test the flexibility of your lower back and hamstring muscles.</p>
                     </div>
                 </div>
             </section>
@@ -813,45 +870,34 @@
             </div>
 
             <div id="history-tab-content" class="tab-content hidden space-y-6">
-                <h3 class="text-lg font-semibold text-gray-800">Score History</h3>
-                <div class="bg-gray-50 p-6 rounded-lg shadow-inner overflow-y-auto max-h-[500px]">
+                <!-- Graph Section -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Performance Trend</h3>
+                        <div id="graph-filters" class="flex items-center space-x-1 bg-gray-200 rounded-lg p-1">
+                            <button class="graph-filter-btn active" data-duration="week">Last 7 Days</button>
+                            <button class="graph-filter-btn" data-duration="month">Last 30 Days</button>
+                            <button class="graph-filter-btn" data-duration="all">All Time</button>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="scoreHistoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- History Table Section -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-inner overflow-y-auto max-h-[300px]">
+                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Detailed History</h3>
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                        <thead class="bg-gray-100">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
                                 <th scope="col" class="relative px-6 py-3"><span class="sr-only">Details</span></th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr class="history-row hover:bg-gray-50 cursor-pointer" 
-                                data-video-url="https://www.youtube.com/embed/k-pT5Gq2j6o" 
-                                data-comments="Great form, but you can improve your vertical height with better arm swing. Focus on your hip drive."
-                                data-jump-height="55 cm"
-                                data-cheat-prob="Low"
-                                data-benchmark="60 cm"
-                                data-status="✅ Verified"
-                                data-score="55 cm">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mar 22, 2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">55 cm</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button class="text-orange-600 hover:text-orange-900">View</button>
-                                </td>
-                            </tr>
-                            <tr class="history-row hover:bg-gray-50 cursor-pointer" 
-                                data-video-url="https://www.youtube.com/embed/oG7kLqS7qYg" 
-                                data-comments="Excellent speed and agility! You lost a fraction of a second on the turn. Practice planting your foot more firmly."
-                                data-jump-height="N/A"
-                                data-cheat-prob="Low"
-                                data-benchmark="N/A"
-                                data-status="✅ Verified"
-                                data-score="10.2s">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Feb 20, 2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10.2s</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button class="text-orange-600 hover:text-orange-900">View</button>
-                                </td>
-                            </tr>
+                        <tbody id="history-table-body" class="bg-white divide-y divide-gray-200">
+                            <!-- JS will populate this -->
                         </tbody>
                     </table>
                 </div>
@@ -1163,14 +1209,43 @@
 
         // New elements for Daily Streaks
         const streakSliderContainer = document.getElementById('streak-slider-container');
+        let currentChart = null; // To hold the chart instance
 
         // Dummy data for different test streaks
         const dailyStreakData = {
-            "Vertical Jump": [true, true, true, false, false, false, false], // Sun, Mon, Tue
-            "Sit-ups":       [true, false, true, true, true, false, false], // Sun, Tue, Wed, Thu
-            "Pull-ups":      [false, true, false, false, true, false, false], // Mon, Thu
-            "30-meter Sprint":   [true, true, true, true, true, true, true] // Everyday!
+            "Sit Ups":       [true, false, true, true, true, false, false], // Sun, Tue, Wed, Thu
+            "Push Ups":      [false, true, false, false, true, false, false], // Mon, Thu
+            "Vertical Height Jump": [true, true, true, false, true, true, true], // Sun, Mon, Tue, then broken, then Fri, Sat, Sun
+            "Sit and Reach":   [true, true, true, true, true, true, true] // Everyday!
         };
+
+        const scoreHistoryData = {
+            "Sit Ups": [
+                { date: "2024-03-01", score: 45 }, { date: "2024-03-03", score: 48 },
+                { date: "2024-03-05", score: 50 }, { date: "2024-03-08", score: 52 },
+                { date: "2024-03-12", score: 51 }, { date: "2024-03-15", score: 55 },
+                { date: "2024-03-20", score: 58 }
+            ],
+            "Push Ups": [
+                { date: "2024-03-02", score: 30 }, { date: "2024-03-04", score: 32 },
+                { date: "2024-03-07", score: 35 }, { date: "2024-03-10", score: 36 },
+                { date: "2024-03-14", score: 38 }, { date: "2024-03-18", score: 40 },
+                { date: "2024-03-22", score: 42 }
+            ],
+            "Vertical Height Jump": [
+                { date: "2024-02-10", score: 40 }, { date: "2024-02-15", score: 42 },
+                { date: "2024-02-20", score: 41 }, { date: "2024-02-25", score: 44 },
+                { date: "2024-03-01", score: 48 }, { date: "2024-03-05", score: 50 },
+                { date: "2024-03-10", score: 52 }, { date: "2024-03-15", score: 55 }
+            ],
+            "Sit and Reach": [
+                { date: "2024-03-01", score: 15 }, { date: "2024-03-04", score: 16 },
+                { date: "2024-03-06", score: 18 }, { date: "2024-03-09", score: 17 },
+                { date: "2024-03-13", score: 20 }, { date: "2024-03-17", score: 22 },
+                { date: "2024-03-21", score: 23 }
+            ]
+        };
+
 
         const leaderboardData = {
             country: [
@@ -1881,31 +1956,41 @@
                 
                 const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
                 const today = new Date().getDay(); // Sunday = 0, Monday = 1, etc.
-                const streakData = dailyStreakData[testName] || [false, false, false, false, false, false, false]; // Default to all false if test is not found
+                const streakData = dailyStreakData[testName] || [false, false, false, false, false, false, false];
                 
                 streaksContainer.innerHTML = '';
-                let activeStreakCount = 0;
+                let currentConsecutiveStreak = 0;
 
+                // Calculate current consecutive streak ending 'today'
+                for (let i = today; i >= 0; i--) {
+                    if (streakData[i]) {
+                        currentConsecutiveStreak++;
+                    } else {
+                        break; // Streak broken
+                    }
+                }
+                
                 streakData.forEach((isActive, index) => {
-                    if(isActive) activeStreakCount++;
-
                     const dayElement = document.createElement('div');
                     dayElement.className = 'text-center';
 
                     const circle = document.createElement('div');
-                    circle.className = `streak-day w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-lg ${isActive ? 'active' : 'bg-gray-200 text-gray-400'}`;
+                    circle.className = `streak-day w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${isActive ? 'active' : 'bg-gray-200 text-gray-400'}`;
                     circle.textContent = days[index];
                     
-                    const label = document.createElement('p');
-                    label.className = `day-label text-xs mt-1 font-medium ${isActive ? 'text-orange-600' : 'text-gray-500'}`;
-                    label.textContent = index === today ? 'Today' : '';
-
                     dayElement.appendChild(circle);
-                    dayElement.appendChild(label);
+
+                    if (index === today) {
+                        const todayLabel = document.createElement('p');
+                        todayLabel.className = 'text-xs mt-1 font-bold text-orange-600';
+                        todayLabel.textContent = 'Today';
+                        dayElement.appendChild(todayLabel);
+                    }
+
                     streaksContainer.appendChild(dayElement);
                 });
                 
-                currentStreakCount.textContent = `${activeStreakCount} Days`;
+                currentStreakCount.textContent = `${currentConsecutiveStreak} ${currentConsecutiveStreak === 1 ? 'Day' : 'Days'}`;
             }
 
 
@@ -2038,15 +2123,33 @@
 
             tabButtons.forEach((button) => {
                 button.addEventListener("click", (e) => {
+                    const tabName = e.target.getAttribute("data-tab-name");
+                    
                     tabButtons.forEach((btn) => {
                         btn.classList.remove("border-orange-600", "text-orange-600");
                         btn.classList.add("border-transparent", "text-gray-500");
                     });
+                    
                     tabContents.forEach((content) => content.classList.add("hidden"));
-                    const tabName = e.target.getAttribute("data-tab-name");
+                    
                     e.target.classList.remove("border-transparent", "text-gray-500");
                     e.target.classList.add("border-orange-600", "text-orange-600");
+                    
                     document.getElementById(`${tabName}-tab-content`).classList.remove("hidden");
+                    
+                    // If history tab is clicked, render graph and table
+                    if (tabName === 'history') {
+                        const currentTestName = document.getElementById('test-title').textContent;
+                        renderScoreHistoryGraph(currentTestName, 'week'); // Default to week view
+                        populateHistoryTable(currentTestName);
+                        // Make sure the week button is active
+                         document.querySelectorAll('#graph-filters .graph-filter-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                            if (btn.dataset.duration === 'week') {
+                                btn.classList.add('active');
+                            }
+                        });
+                    }
                 });
             });
 
@@ -2286,6 +2389,118 @@
                 showModal(loginModal); // Simulates logging out and going to login
             });
         }
+        
+        // --- SCORE HISTORY GRAPH AND TABLE ---
+        function renderScoreHistoryGraph(testName, duration) {
+            const data = scoreHistoryData[testName] || [];
+            const now = new Date();
+            let filteredData = [];
+
+            if (duration === 'week') {
+                const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                filteredData = data.filter(d => new Date(d.date) >= sevenDaysAgo);
+            } else if (duration === 'month') {
+                const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                filteredData = data.filter(d => new Date(d.date) >= thirtyDaysAgo);
+            } else {
+                filteredData = data;
+            }
+
+            const ctx = document.getElementById('scoreHistoryChart').getContext('2d');
+            const labels = filteredData.map(d => new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+            const scores = filteredData.map(d => d.score);
+
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            currentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `Score for ${testName}`,
+                        data: scores,
+                        borderColor: '#f97316',
+                        backgroundColor: 'rgba(251, 146, 60, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#f97316',
+                        pointHoverBackgroundColor: '#f97316',
+                        pointHoverBorderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        function populateHistoryTable(testName) {
+            const tableBody = document.getElementById('history-table-body');
+            const data = scoreHistoryData[testName] || [];
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            // Sort data descending by date
+            const sortedData = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if(sortedData.length === 0) {
+                 tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-500">No history found for this test.</td></tr>`;
+                 return;
+            }
+
+            sortedData.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'history-row hover:bg-gray-50 cursor-pointer';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.score}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button class="text-orange-600 hover:text-orange-900">View</button>
+                    </td>
+                `;
+                 // Add event listener for the modal popup if needed
+                row.addEventListener('click', () => {
+                    // Logic to open detail modal can be added here
+                    console.log(`Viewing details for ${item.date}`);
+                });
+                tableBody.appendChild(row);
+            });
+        }
+
+
+        document.getElementById('graph-filters').addEventListener('click', (e) => {
+            if (e.target.classList.contains('graph-filter-btn')) {
+                const duration = e.target.dataset.duration;
+                const currentTestName = document.getElementById('test-title').textContent;
+                
+                document.querySelectorAll('#graph-filters .graph-filter-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                renderScoreHistoryGraph(currentTestName, duration);
+            }
+        });
+
 
         // New functions for event and sport details
         function openEventDetailsModal(eventKey) {
@@ -2377,5 +2592,4 @@
     </script>
 </body>
 </html>
-
 
