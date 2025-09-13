@@ -215,7 +215,7 @@
 
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-800 overflow-x-hidden">
 
     <!-- Landing Page Content -->
     <div id="landing-page-content">
@@ -315,7 +315,7 @@
                 <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-10">Why Choose SAI?</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="feature-card bg-white p-8 rounded-2xl shadow-2xl text-center space-y-4">
-                        <div class="w-16 h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+                        <div class="w-20 h-20 mx-auto bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
 </svg>
                         </div>
@@ -323,7 +323,7 @@
                         <p class="text-gray-600">Eliminate guesswork with precise metrics and data on speed, power, and agility.</p>
                     </div>
                     <div class="feature-card bg-white p-8 rounded-2xl shadow-2xl text-center space-y-4">
-                        <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                        <div class="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center text-green-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 18l-5-5h10M11 6l5 5H6"></path>
 </svg>
                         </div>
@@ -331,7 +331,7 @@
                         <p class="text-gray-600">Track athlete progress over time and identify areas for improvement.</p>
                     </div>
                     <div class="feature-card bg-white p-8 rounded-2xl shadow-2xl text-center space-y-4">
-                        <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                        <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 8v8M8 12h8"></path>
 </svg>
                         </div>
@@ -372,7 +372,7 @@
     </div>
 
     <!-- App Page Content (hidden by default) -->
-    <div id="app-page-content" class="hidden">
+   <div id="app-page-content" class="hidden overflow-hidden">
         <!-- Animated Background Elements -->
         <div id="animated-background" class="absolute inset-0 overflow-hidden -z-10">
             <!-- SVG for a running shoe -->
@@ -580,44 +580,50 @@
     </div>
     
     <!-- Profile Modal Overlay (new) -->
-    <div id="profile-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
-        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-sm relative">
-            <button id="close-profile-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-            <div class="flex flex-col items-center text-center space-y-4">
-                <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-orange-500 bg-gray-200 flex items-center justify-center">
-                    <img src="https://placehold.co/100x100/A0AEC0/ffffff?text=User" alt="Profile Picture" class="w-full h-full object-cover">
-                </div>
-                <h2 id="profile-name" class="text-2xl font-bold text-gray-900">John Doe</h2>
-                <div class="grid grid-cols-2 gap-4 w-full">
-                    <div class="flex flex-col items-center">
-                        <span class="text-sm text-gray-500">Age</span>
-                        <span id="profile-age" class="font-semibold text-lg text-gray-900">30</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="text-sm text-gray-500">Gender</span>
-                        <span id="profile-gender" class="font-semibold text-lg text-gray-900">Male</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="text-sm text-gray-500">Height</span>
-                        <span id="profile-height" class="font-semibold text-lg text-gray-900">175 cm</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="text-sm text-gray-500">Weight</span>
-                        <span id="profile-weight" class="font-semibold text-lg text-gray-900">75 kg</span>
-                    </div>
-                </div>
-                <div class="w-full bg-gray-100 p-4 rounded-lg shadow-inner text-center">
-                    <h3 class="font-semibold text-gray-800">BMI: <span id="profile-bmi" class="font-bold">24.5</span></h3>
-                    <h3 class="font-semibold text-gray-800 mt-2">Level: <span id="profile-level" class="font-bold text-green-600">Advanced</span></h3>
-                </div>
-                <button id="logout-btn" class="w-full mt-4 bg-gray-200 text-gray-800 font-medium py-3 rounded-lg hover:bg-gray-300 transition duration-300">Log out or Sign up with a different account</button>
+<div id="profile-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+    <div class="modal-content-container bg-white rounded-3xl shadow-2xl p-8 w-11/12 max-w-sm relative">
+        <button id="close-profile-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+        <div class="flex flex-col items-center text-center space-y-6">
+            <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-orange-500 bg-gray-200 flex items-center justify-center shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
             </div>
+            <h2 id="profile-name" class="text-3xl font-extrabold text-gray-900">John Doe</h2>
+            <div class="grid grid-cols-2 gap-y-4 gap-x-6 w-full text-left">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-500 uppercase">Age</span>
+                    <span id="profile-age" class="font-bold text-xl text-gray-900">30</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-500 uppercase">Gender</span>
+                    <span id="profile-gender" class="font-bold text-xl text-gray-900">Male</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-500 uppercase">Height</span>
+                    <span id="profile-height" class="font-bold text-xl text-gray-900">175 cm</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-500 uppercase">Weight</span>
+                    <span id="profile-weight" class="font-bold text-xl text-gray-900">75 kg</span>
+                </div>
+            </div>
+            <div class="w-full bg-gray-100 p-9 rounded-3xl shadow-inner text-left mt-6 flex flex-col space-y-2">
+    <div class="flex items-center justify-between">
+        <h3 class="font-semibold text-gray-800">BMI</h3>
+        <span id="profile-bmi" class="font-extrabold text-2xl text-gray-900">24.5</span>
+    </div>
+    <div class="flex items-center justify-between">
+        <h3 class="font-semibold text-gray-800">Level</h3>
+        <span id="profile-level" class="font-extrabold text-2xl text-green-600">Advanced</span>
+    </div>
+</div>
+            <button id="logout-btn" class="w-full mt-6 bg-gray-200 text-gray-800 font-bold py-3 rounded-full hover:bg-gray-300 transition duration-300">Log out or Switch account</button>
         </div>
     </div>
-
-
+</div>
     <!-- Login Modal Overlay (hidden by default) -->
     <div id="login-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
         <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-sm relative">
