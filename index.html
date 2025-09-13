@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAI Talent Assessment</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import for a cleaner look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .modal-container {
+            transition: opacity 0.3s ease-out;
+        }
+
+        .modal-content-container, .modal-content {
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            transform: scale(0.95);
+            opacity: 0;
+        }
+
+        .modal-active .modal-content-container, .modal-active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .feature-card {
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .button-shadow {
+            box-shadow: 0 4px 14px 0 rgba(255, 111, 0, 0.39);
+        }
+
+        /* --- Styles from checkpoint 01 --- */
+        body.app-background {
+            background: linear-gradient(135deg, #FF8C00 0%, #F5F5DC 50%, #8BC34A 100%);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+        
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Keyframes for the image carousel fade effect */
+        @keyframes fade {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        /* Custom styling for the test cards for a nicer visual */
+        .test-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Animations for the background elements --- */
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+        }
+
+        .bg-element {
+            position: absolute;
+            animation: float 10s infinite ease-in-out;
+            z-index: 0;
+            opacity: 0.8;
+        }
+        
+        /* Specific animations for each element to add variety */
+        .bg-element-1 { top: 10%; left: 5%; animation-duration: 12s; }
+        .bg-element-2 { top: 50%; right: 10%; animation-duration: 14s; animation-delay: 2s; }
+        .bg-element-3 { bottom: 20%; left: 25%; animation-duration: 10s; animation-delay: 4s; }
+        .bg-element-4 { top: 30%; left: 40%; animation-duration: 13s; animation-delay: 1s; }
+        .bg-element-5 { bottom: 5%; right: 20%; animation-duration: 11s; animation-delay: 3s; }
+        .bg-element-6 { top: 80%; left: 70%; animation-duration: 15s; animation-delay: 5s; }
+        
+        /* Full screen modal for test details */
+        .test-detail-modal-container {
+            transition: opacity 0.3s ease-out;
+        }
+        .test-detail-modal-container .modal-content {
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            transform: scale(0.95);
+            opacity: 0;
+        }
+        .test-detail-modal-container.modal-active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Leaderboard Styles */
+        #main-leaderboard-body tr:hover {
+            background-color: #f9fafb; /* light hover */
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        #main-leaderboard-body td {
+            vertical-align: top;
+            line-height: 1.4;
+        }
+
+        .leaderboard-rank {
+            font-weight: 700;
+            color: #FF6F00; /* orange highlight for rank */
+        }
+
+        .leaderboard-highlight {
+            background: linear-gradient(90deg, #22ff00, #FF6F00);
+            font-weight: 700;
+        }
+
+        /* Spinner for AI feedback */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #f39c12;
+            animation: spin 1s ease infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+     
+        .gradient-text {
+            background: linear-gradient(45deg, #f3ec78, #af4261);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Landing Page Content -->
+    <div id="landing-page-content">
+     <!-- Landing Page Navbar -->
+<header class="fixed top-0 w-full z-50 bg-white shadow-lg">
+  <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+    
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round"
+           stroke-linejoin="round" class="text-green-600">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+      <span class="text-xl font-bold text-orange-600">SAI Sports Analyzer</span>
+    </div>
+
+    <!-- Desktop Nav Links -->
+    <div class="hidden md:flex space-x-8">
+      <a href="#features" class="relative text-gray-700 font-medium hover:text-orange-600 group">
+        Features
+        <span class="absolute left-0 -bottom-1 w-0 h-[2px] bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+      </a>
+      <a href="#testimonials" class="relative text-gray-700 font-medium hover:text-orange-600 group">
+        Testimonials
+        <span class="absolute left-0 -bottom-1 w-0 h-[2px] bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+      </a>
+      <a href="#leaderboard" class="relative text-gray-700 font-medium hover:text-orange-600 group">
+        Leaderboard
+        <span class="absolute left-0 -bottom-1 w-0 h-[2px] bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+      </a>
+    </div>
+
+    <!-- CTA Button -->
+   <a href="/login" id="login-btn" class="hidden sm:inline-block bg-orange-600 text-white px-5 py-2 rounded-full font-medium hover:bg-orange-700 hover:scale-105 active:scale-95 transition-transform duration-200">
+  Login
+</a>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-orange-600 focus:outline-none">
+      <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+    <div class="px-4 pt-4 pb-6 space-y-4">
+      <a href="#features" class="block text-gray-700 font-medium hover:text-orange-600">Features</a>
+      <a href="#testimonials" class="block text-gray-700 font-medium hover:text-orange-600">Testimonials</a>
+      <a href="#leaderboard" class="block text-gray-700 font-medium hover:text-orange-600">Leaderboard</a>
+      <button class="w-full bg-orange-600 text-white py-2 rounded-lg font-medium hover:bg-orange-700 transition duration-300">
+        Login
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const menuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  menuBtn.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+</script>
+
+
+        <main class="container mx-auto px-4 py-8 space-y-16">
+            <!-- Hero Section -->
+            <section class="flex flex-col md:flex-row items-center justify-center text-center md:text-left py-16">
+                <div class="md:w-1/2 space-y-6 md:pr-12">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-gray-900 drop-shadow-sm">
+    Unlock Athletic Potential with Data-Driven Insights
+</h1>
+<p class="text-lg text-gray-600 max-w-lg mx-auto md:mx-0 leading-relaxed">
+    SAI Sports Analyzer uses cutting-edge video analysis to provide objective, measurable performance data for athletes and coaches.
+</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
+                     <button id="hero-cta-button" class="bg-orange-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-orange-700 hover:scale-105 active:scale-95 transition-transform duration-200 button-shadow">
+    Start Now
+</button>
+<button class="bg-white text-gray-800 font-semibold py-3 px-8 rounded-full border border-gray-300 hover:bg-gray-100 hover:scale-105 active:scale-95 transition-transform duration-200">
+    Learn More
+</button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 mt-12 md:mt-0">
+<img src="img.jpg" alt="Athlete sprinting on a track" class="w-full h-auto rounded-xl shadow-2xl">
+            </section>
+
+            <!-- Our Features Section -->
+            <section id="features">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-10">Why Choose SAI?</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="feature-card bg-white p-8 rounded-2xl shadow-2xl text-center space-y-4">
+                        <div class="w-16 h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+</svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900">Objective Analysis</h3>
+                        <p class="text-gray-600">Eliminate guesswork with precise metrics and data on speed, power, and agility.</p>
+                    </div>
+                    <div class="feature-card bg-white p-8 rounded-2xl shadow-2xl text-center space-y-4">
+                        <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 18l-5-5h10M11 6l5 5H6"></path>
+</svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900">Performance Tracking</h3>
+                        <p class="text-gray-600">Track athlete progress over time and identify areas for improvement.</p>
+                    </div>
+                    <div class="feature-card bg-white p-8 rounded-2xl shadow-2xl text-center space-y-4">
+                        <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 8v8M8 12h8"></path>
+</svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900">Leaderboards & Rankings</h3>
+                        <p class="text-gray-600">Compare results against local, state, and national athletes for a competitive edge.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section id="testimonials" class="bg-gray-100 p-12 rounded-xl shadow-inner">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-10">What Our Users Say</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                   <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
+                        <p class="text-gray-700 italic mb-4">"SAI Sports Analyzer has revolutionized how we evaluate players. The objective data helps us make smarter decisions for player development."</p>
+                        <p class="font-semibold text-gray-900">- Coach Ravi Kumar, Elite Sports Academy</p>
+                    </div>
+                   <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                        <p class="text-gray-700 italic mb-4">"I've always wondered how I compare to other athletes. The SAI platform gave me clear, verifiable data and showed me exactly where I need to improve."</p>
+                        <p class="font-semibold text-gray-900">- Athlete Neha Sharma, National Track Team</p>
+                    </div>
+                </div>
+            </section>
+
+           <!-- Final Call to Action Section -->
+          <section class="bg-[linear-gradient(45deg,#FF9933_0%,#FFFFFF_40%,#FFFFFF_40%,#FFFFFF_60%,#ffff_60%,#138808_100%)] text-white p-12 rounded-xl text-center shadow-xl">
+               <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">Ready to Unleash Your Potential?</h2>
+<p class="text-lg max-w-2xl mx-auto mb-6 text-gray-800">Join the future of sports talent assessment. Request a demo to see how SAI can transform your team's performance.</p>
+           <button id="final-cta-button" class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-blue-800 transition duration-300">
+    Start Now
+</button>
+            </section>
+        </main>
+        <!-- Simple footer -->
+        <footer class="text-center py-6 text-gray-500 text-sm">
+            &copy; 2024 Sports Authority of India. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- App Page Content (hidden by default) -->
+    <div id="app-page-content" class="hidden">
+        <!-- Animated Background Elements -->
+        <div id="animated-background" class="absolute inset-0 overflow-hidden -z-10">
+            <!-- SVG for a running shoe -->
+            <div class="bg-element bg-element-1 w-16 h-16 sm:w-20 sm:h-20 text-orange-400">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <path d="M16 18H6a4 4 0 0 1-4-4V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2zM4 14h12M12 2v2M12 18v2M18 10h4M18 14h4M8 18v2M8 2v2M2 10v4M2 10h4"/>
+                </svg>
+            </div>
+            <!-- SVG for a soccer ball -->
+            <div class="bg-element bg-element-2 w-16 h-16 sm:w-20 sm:h-20 text-green-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 8.66 5A10 10 0 0 1 12 22a10 10 0 0 1-8.66-15A10 10 0 0 1 12 2z"></path>
+                </svg>
+            </div>
+            <!-- SVG for a medal -->
+            <div class="bg-element bg-element-3 w-16 h-16 sm:w-20 sm:h-20 text-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M12 20a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                </svg>
+            </div>
+            <!-- More background elements for variety -->
+            <div class="bg-element bg-element-4 w-12 h-12 sm:w-16 sm:h-16 text-orange-400 opacity-60">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <path d="M16 18H6a4 4 0 0 1-4-4V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2zM4 14h12M12 2v2M12 18v2M18 10h4M18 14h4M8 18v2M8 2v2M2 10v4M2 10h4"/>
+                </svg>
+            </div>
+            <div class="bg-element bg-element-5 w-12 h-12 sm:w-16 sm:h-16 text-green-500 opacity-60">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 8.66 5A10 10 0 0 1 12 22a10 10 0 0 1-8.66-15A10 10 0 0 1 12 2z"></path>
+                </svg>
+            </div>
+            <div class="bg-element bg-element-6 w-12 h-12 sm:w-16 sm:h-16 text-blue-500 opacity-60">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M12 20a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Top Navigation Bar for App Page -->
+        <header class="bg-white shadow-sm sticky top-0 z-50">
+            <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <button id="back-to-landing-btn" class="text-gray-600 hover:text-orange-600 transition duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                        <span class="text-xl font-bold text-orange-600">SAI Sports Analyzer</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="hidden sm:inline-block text-gray-600 hover:text-orange-600 font-medium transition duration-300">About us</a>
+                    <a href="#" class="hidden sm:inline-block text-gray-600 hover:text-orange-600 font-medium transition duration-300">Connect with coaches</a>
+                    <a href="#" class="hidden sm:inline-block text-gray-600 hover:text-orange-600 font-medium transition duration-300">Community</a>
+                    <a href="#" class="hidden sm:inline-block text-gray-600 hover:text-orange-600 font-medium transition duration-300">How to use</a>
+                    <button id="profile-menu-button-app" class="text-gray-600 hover:text-orange-600 transition duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main id="main-content" class="container mx-auto px-4 py-8 space-y-12 relative z-10">
+            
+            <!-- Daily Streaks Section (Updated) -->
+            <section>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-4 sm:mb-0">
+                        🔥 Daily Streak
+                    </h2>
+                    <div id="streak-slider-container" class="bg-gray-200 p-1 rounded-full flex items-center space-x-1">
+                        <!-- Slider buttons will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                    <div class="flex items-center space-x-2">
+                        <p class="text-lg font-semibold text-gray-800">Your current streak for this test: </p>
+                        <p id="current-streak-count" class="text-2xl font-bold text-orange-600">0 Days</p>
+                    </div>
+                    <div id="daily-streaks-container" class="flex items-center justify-center space-x-2 sm:space-x-4">
+                        <!-- Streaks will be dynamically inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fitness Assignment Test Section -->
+            <section>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Fitness Assignment test</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Sit-ups Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Sit-ups">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M6.5 8.5a5 5 0 008 5.5l1.5-1.5a6 6 0 00-8-5.5"></path><path d="M12 12v9"></path><path d="M9 21h6"></path></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Sit-ups</h3>
+                        <p class="text-sm text-gray-500">Evaluate your core strength and abdominal endurance.</p>
+                    </div>
+
+                    <!-- Pull-ups Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Pull-ups">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"></path><path d="M6 12v-2a4 4 0 014-4h4a4 4 0 014 4v2"></path><path d="M6 12v6a2 2 0 002 2h8a2 2 0 002-2v-6"></path></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Pull-ups</h3>
+                        <p class="text-sm text-gray-500">Test your upper body strength and muscular endurance.</p>
+                    </div>
+                    
+                    <!-- Vertical Jump Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Vertical Jump">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-orange-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3L5 21"/><path d="M19 3L19 21"/><path d="M12 13L12 5"/><path d="M9 8L12 5L15 8"/></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Vertical Jump</h3>
+                        <p class="text-sm text-gray-500">Measure your explosive leg power and jumping height.</p>
+                    </div>
+
+                    <!-- Height Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Height">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L3 8.4a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0L12 5.3"/><path d="m15 12 6-6"/><path d="m11 10 2-2"/><path d="m16 5 2-2"/><path d="m6 15 2-2"/></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Height</h3>
+                        <p class="text-sm text-gray-500">Measure your standing height accurately.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Game-specific Fitness Tests Section -->
+            <section>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Game-specific Fitness Tests</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <!-- Football Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer game-icon-btn" data-sport-name="football">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 00-7.53 16.59"></path><path d="M12 2a10 10 0 017.53 16.59"></path></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Football</h3>
+                        <p class="text-sm text-gray-500">Tests for agility, speed, and endurance on the field.</p>
+                    </div>
+                    <!-- Cricket Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer game-icon-btn" data-sport-name="cricket">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-600 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22l-4-4 1.5-1.5L15 19l6-6-3-3-2.5 2.5"/><path d="M15.5 6.5l-3-3L15 1l3 3-2.5 2.5z"/><circle cx="5" cy="19" r="2"/></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Cricket</h3>
+                        <p class="text-sm text-gray-500">Assessments for batting power, bowling speed, and fielding agility.</p>
+                    </div>
+                    <!-- Hockey Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer game-icon-btn" data-sport-name="hockey">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-orange-600 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.3 22H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-1"/><path d="M18 7V2"/><path d="M4 14h10c.6 0 1-.4 1-1V5c0-.6-.4-1-1-1H4a2 2 0 0 0-2 2v6c0 1.1.9 2 2 2z"/></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Hockey</h3>
+                        <p class="text-sm text-gray-500">Drills for stick handling, skating speed, and reaction time.</p>
+                    </div>
+                    <!-- Badminton Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer game-icon-btn" data-sport-name="badminton">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12L12 22"/><path d="M18 16L6 16"/><path d="M15 10a4 4 0 1 0-8 0c0 2 2 4 4 4s4-2 4-4Z"/><path d="M12 2v4"/><path d="M18 5L21 2"/><path d="M6 5L3 2"/></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Badminton</h3>
+                        <p class="text-sm text-gray-500">Evaluations for footwork, smash speed, and court coverage.</p>
+                    </div>
+                    <!-- Athletics Card -->
+                    <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer game-icon-btn" data-sport-name="athletics">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-600 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5c-2.5 1.5-5 1.5-7.5 0"/><path d="M12 22v-8"/><path d="M18 10a6 6 0 0 0-12 0c0 4 6 10 6 10s6-6 6-10Z"/></svg>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">Athletics</h3>
+                        <p class="text-sm text-gray-500">Measure performance in sprints, jumps, and throws.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upcoming Events Section (Moved) -->
+            <section>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Upcoming Events</h2>
+                <div class="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-xl shadow-lg perspective-1000">
+                    <div id="carousel-container" class="w-full h-full relative preserve-3d">
+                        <!-- Carousel slides will be dynamically inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Leaderboard Section -->
+            <section>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">🏆Leaderboard</h2>
+                <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+                    <!-- Desktop Table -->
+                    <table class="min-w-full divide-y divide-gray-200 hidden md:table">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verification</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fitness Tests</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Record Highlight</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200" id="main-leaderboard-body">
+                            <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                    <!-- Mobile Cards -->
+                    <div id="main-leaderboard-cards" class="md:hidden">
+                        <!-- JS will populate this -->
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Simple footer -->
+        <footer class="text-center py-6 text-gray-500 text-sm relative z-10">
+            &copy; 2024 Sports Authority of India. All rights reserved.
+        </footer>
+    </div>
+    
+    <!-- Profile Modal Overlay (new) -->
+    <div id="profile-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-sm relative">
+            <button id="close-profile-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div class="flex flex-col items-center text-center space-y-4">
+                <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-orange-500 bg-gray-200 flex items-center justify-center">
+                    <img src="https://placehold.co/100x100/A0AEC0/ffffff?text=User" alt="Profile Picture" class="w-full h-full object-cover">
+                </div>
+                <h2 id="profile-name" class="text-2xl font-bold text-gray-900">John Doe</h2>
+                <div class="grid grid-cols-2 gap-4 w-full">
+                    <div class="flex flex-col items-center">
+                        <span class="text-sm text-gray-500">Age</span>
+                        <span id="profile-age" class="font-semibold text-lg text-gray-900">30</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-sm text-gray-500">Gender</span>
+                        <span id="profile-gender" class="font-semibold text-lg text-gray-900">Male</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-sm text-gray-500">Height</span>
+                        <span id="profile-height" class="font-semibold text-lg text-gray-900">175 cm</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-sm text-gray-500">Weight</span>
+                        <span id="profile-weight" class="font-semibold text-lg text-gray-900">75 kg</span>
+                    </div>
+                </div>
+                <div class="w-full bg-gray-100 p-4 rounded-lg shadow-inner text-center">
+                    <h3 class="font-semibold text-gray-800">BMI: <span id="profile-bmi" class="font-bold">24.5</span></h3>
+                    <h3 class="font-semibold text-gray-800 mt-2">Level: <span id="profile-level" class="font-bold text-green-600">Advanced</span></h3>
+                </div>
+                <button id="logout-btn" class="w-full mt-4 bg-gray-200 text-gray-800 font-medium py-3 rounded-lg hover:bg-gray-300 transition duration-300">Log out or Sign up with a different account</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Login Modal Overlay (hidden by default) -->
+    <div id="login-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-sm relative">
+            <!-- Back Button -->
+            <button id="back-from-login" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="close-login-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Login</h2>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                    <p id="email-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                    <p id="password-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                </div>
+                <div class="flex justify-end text-sm">
+                    <a href="#" id="forgot-password-link" class="font-medium text-orange-600 hover:text-orange-500">Forgot Password?</a>
+                </div>
+                <button type="submit" class="w-full bg-orange-600 text-white font-medium py-3 rounded-lg hover:bg-orange-700 transition duration-300">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal Overlay (hidden by default) -->
+    <div id="forgot-password-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-sm relative">
+            <!-- Back Button -->
+            <button id="back-from-forgot" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="close-forgot-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Forgot Password</h2>
+            <p class="text-sm text-gray-600 mb-4 text-center">Enter your email address to receive an OTP.</p>
+            <form class="space-y-4">
+                <div>
+                    <label for="forgot-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="forgot-email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                </div>
+                <button type="submit" class="w-full bg-orange-600 text-white font-medium py-3 rounded-lg hover:bg-orange-700 transition duration-300">Send OTP</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal Overlay (hidden by default) -->
+    <div id="signup-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-lg relative max-h-[90vh] overflow-y-auto">
+            <!-- Back Button -->
+            <button id="back-from-signup" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="close-signup-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Sign Up</h2>
+            <form id="signup-form" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="first-name" class="block text-sm font-medium text-gray-700">First Name</label>
+                        <input type="text" id="first-name" name="first-name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <p id="first-name-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                    <div>
+                        <label for="last-name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                        <input type="text" id="last-name" name="last-name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <p id="last-name-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                </div>
+                <div>
+                    <label for="signup-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="signup-email" name="signup-email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <p id="signup-email-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                </div>
+                <div>
+                    <label for="phone-number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="tel" id="phone-number" name="phone-number" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                    <p id="phone-number-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                        <input type="number" id="age" name="age" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <p id="age-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                    <div>
+                        <label for="height" class="block text-sm font-medium text-gray-700">Height (in cm)</label>
+                        <input type="text" id="height" name="height" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <p id="height-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                    <div>
+                        <label for="weight" class="block text-sm font-medium text-gray-700">Weight (in kg)</label>
+                        <input type="number" id="weight" name="weight" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <p id="weight-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                        <input type="text" id="country" name="country" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <p id="country-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                    <div>
+                        <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+                        <input type="text" id="district" name="district" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <p id="district-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700">Full Address</label>
+                        <textarea id="address" name="address" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"></textarea>
+                        <p id="address-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-orange-600 text-white font-medium py-3 rounded-lg hover:bg-orange-700 transition duration-300">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Test Detail Modal Overlay (hidden by default) -->
+    <div id="test-detail-modal-overlay" class="test-detail-modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+        <div class="modal-content bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-4xl relative max-h-[95vh] overflow-y-auto">
+            <!-- Back Button -->
+            <button id="back-from-test-details" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="close-test-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 id="test-title" class="text-2xl font-bold text-gray-900 mb-6 text-center">Test Title</h2>
+
+            <!-- Tabs Navigation -->
+            <div class="flex border-b border-gray-200 mb-6">
+                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="evaluation">Evaluation</button>
+                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="history">Score History</button>
+                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="leaderboard">Leaderboard</button>
+            </div>
+
+            <!-- Tab Content Containers -->
+            <div id="evaluation-tab-content" class="tab-content space-y-6">
+                <h3 class="text-lg font-semibold text-gray-800">Submit Your Performance Video</h3>
+
+                <form id="uploadForm" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label for="test-age" class="block text-sm font-medium text-gray-700">Age</label>
+                            <input type="number" id="test-age" name="test-age" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                            <p id="test-age-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                        </div>
+                        <div>
+                            <label for="test-height" class="block text-sm font-medium text-gray-700">Height (in cm)</label>
+                            <input type="number" id="test-height" name="test-height" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                            <p id="test-height-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                        </div>
+                        <div>
+                            <label for="test-weight" class="block text-sm font-medium text-gray-700">Weight (in kg)</label>
+                            <input type="number" id="test-weight" name="test-weight" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                            <p id="test-weight-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                        </div>
+                    </div>
+                     <div>
+                        <label for="test-gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                        <select id="test-gender" name="test-gender" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <p id="test-gender-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
+                    </div>
+                
+                    <!-- Video Guide Section -->
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                        <h4 class="text-lg font-bold mb-2">How to Record Your Test Video</h4>
+                        <p class="text-sm text-gray-600 mb-4">Watch this video for instructions on how to record your video for the best evaluation results.</p>
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe class="w-full h-80 rounded-lg" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Rules Section -->
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                        <h4 class="text-lg font-bold mb-2">Rules for Evaluation</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-700">
+                            <li>Ensure the camera is stable and positioned to capture your full body.</li>
+                            <li>Do not wear loose clothing that may obstruct movement.</li>
+                            <li>Perform the test in a well-lit area with a clear background.</li>
+                            <li>The entire test, from start to finish, must be in a single, unedited video.</li>
+                            <li>Follow all specific test instructions as outlined in the video guide.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Upload Button -->
+                    <div class="pt-4">
+                        <label for="videoFile" class="flex items-center justify-center w-full px-6 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                            <span id="video-file-name" class="text-gray-600 font-medium">Click to upload your video</span>
+                            <input id="videoFile" name="videoFile" type="file" accept="video/*" class="hidden">
+                        </label>
+                         <p id="video-file-error-message" class="text-red-500 text-sm mt-1 hidden">Please select a video file.</p>
+                    </div>
+
+                    <!-- Submit Button and loading spinner -->
+                    <div class="flex items-center space-x-2">
+                        <button id="submit-evaluation-btn" type="submit" class="flex-1 bg-orange-600 text-white font-medium py-3 rounded-lg hover:bg-orange-700 transition duration-300">
+                            Submit for Evaluation
+                        </button>
+                        <div id="upload-loading" class="hidden spinner-border h-8 w-8" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </form>
+                
+                 <!-- New section to display live evaluation results -->
+                 <div id="evaluation-results-section" class="hidden mt-6 p-6 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Evaluation Results</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+                        <div>
+                            <p class="font-semibold">Jump Height:</p>
+                            <p id="eval-jumpHeight" class="text-lg"></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Cheat Probability:</p>
+                            <p id="eval-cheatProb" class="text-lg"></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Benchmark:</p>
+                            <p id="eval-benchmark" class="text-lg"></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Status:</p>
+                            <p id="eval-verified" class="text-lg"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="history-tab-content" class="tab-content hidden space-y-6">
+                <h3 class="text-lg font-semibold text-gray-800">Score History</h3>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-inner overflow-y-auto max-h-[500px]">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                <th scope="col" class="relative px-6 py-3"><span class="sr-only">Details</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="history-row hover:bg-gray-50 cursor-pointer" 
+                                data-video-url="https://www.youtube.com/embed/k-pT5Gq2j6o" 
+                                data-comments="Great form, but you can improve your vertical height with better arm swing. Focus on your hip drive."
+                                data-jump-height="55 cm"
+                                data-cheat-prob="Low"
+                                data-benchmark="60 cm"
+                                data-status="✅ Verified"
+                                data-score="55 cm">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mar 22, 2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">55 cm</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-orange-600 hover:text-orange-900">View</button>
+                                </td>
+                            </tr>
+                            <tr class="history-row hover:bg-gray-50 cursor-pointer" 
+                                data-video-url="https://www.youtube.com/embed/oG7kLqS7qYg" 
+                                data-comments="Excellent speed and agility! You lost a fraction of a second on the turn. Practice planting your foot more firmly."
+                                data-jump-height="N/A"
+                                data-cheat-prob="Low"
+                                data-benchmark="N/A"
+                                data-status="✅ Verified"
+                                data-score="10.2s">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Feb 20, 2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10.2s</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-orange-600 hover:text-orange-900">View</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="leaderboard-tab-content" class="tab-content hidden space-y-6">
+                <h3 class="text-lg font-semibold text-gray-800">Leaderboard</h3>
+                
+                <!-- Filter buttons -->
+                <div class="flex space-x-2">
+                    <button id="filter-country" class="px-4 py-2 text-sm font-medium rounded-lg bg-orange-600 text-white">Country</button>
+                    <button id="filter-state" class="px-4 py-2 text-sm font-medium rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300">State</button>
+                    <button id="filter-district" class="px-4 py-2 text-sm font-medium rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300">District</button>
+                </div>
+
+                <!-- Leaderboard table -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Athlete</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body" class="bg-white divide-y divide-gray-200">
+                            <!-- Leaderboard data will be dynamically loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Message Box (Replaces alert()) -->
+    <div id="message-box" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 rounded-lg shadow-xl text-center z-[100] transition-opacity duration-300 ease-in-out hidden opacity-0" role="alert">
+        <p id="message-text" class="text-lg font-medium"></p>
+        <button id="close-message" class="mt-4 bg-orange-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-orange-700">OK</button>
+    </div>
+
+    <!-- Score History Pop-up Modal (hidden by default) -->
+    <div id="score-history-modal" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-2xl relative max-h-[95vh] overflow-y-auto">
+            <!-- Back Button -->
+            <button id="back-from-history" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="close-history-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Test Evaluation</h2>
+            <div class="space-y-4">
+                <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
+                    <iframe id="history-video-player" class="w-full h-72" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <!-- Results Section -->
+                <div id="results-display" class="bg-gray-100 p-4 rounded-lg shadow-inner hidden">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Test Results</h3>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                        <p><strong>Jump Height:</strong> <span id="jumpHeight"></span></p>
+                        <p><strong>Cheat Probability:</strong> <span id="cheatProb"></span></p>
+                        <p><strong>Benchmark:</strong> <span id="benchmark"></span></p>
+                        <p><strong>Status:</strong> <span id="verified"></span></p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Evaluator Comments:</h3>
+                    <p id="evaluator-comments" class="text-gray-600"></p>
+                </div>
+                    <!-- Gemini API integration point -->
+                <div class="flex flex-col space-y-4 pt-4">
+                    <div class="flex items-center space-x-2">
+                        <button id="ai-coach-btn" class="flex-1 bg-orange-600 text-white font-medium py-3 rounded-lg hover:bg-orange-700 transition duration-300 flex items-center justify-center space-x-2">
+                            <span>Get AI-powered Feedback ✨</span>
+                        </button>
+                        <div id="ai-loading" class="hidden spinner-border h-6 w-6" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div id="ai-feedback-container" class="mt-4 p-4 bg-gray-100 rounded-lg hidden">
+                        <h4 class="font-semibold text-lg text-gray-800">AI Coach's Analysis</h4>
+                        <p id="ai-feedback-text" class="text-gray-700 mt-2"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Test Modal (new) -->
+    <div id="game-test-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-4xl relative max-h-[95vh] overflow-y-auto">
+            <button id="close-game-test-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 id="game-test-title" class="text-2xl font-bold text-gray-900 mb-6 text-center">Football Fitness Tests</h2>
+
+            <!-- Flex container for tests and leaderboard -->
+            <div class="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6">
+                <!-- Tests list on the left -->
+                <div id="game-tests-list-container" class="lg:w-1/2 space-y-4">
+                    <!-- Tests will be loaded here dynamically -->
+                </div>
+                
+                <!-- Leaderboard on the right -->
+                <div id="game-test-leaderboard-container" class="lg:w-1/2 space-y-4 hidden">
+                    <h3 id="test-leaderboard-title" class="text-xl font-bold text-gray-900">Leaderboard: </h3>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-white">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Athlete</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="game-leaderboard-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Leaderboard data will be dynamically loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Details Modal (New) -->
+    <div id="event-details-modal" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center p-4">
+        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-6xl relative max-h-[95vh] overflow-y-auto">
+            <button id="close-event-details-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 id="event-details-title" class="text-3xl font-bold text-gray-900 mb-6 text-center">Event Details</h2>
+            
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Left Column: Description & Facts -->
+                <div class="lg:w-1/3 bg-gray-50 p-6 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">About the Tournament</h3>
+                    <p id="event-description-text" class="text-gray-600 mb-4 text-sm"></p>
+                    <div id="event-level-badge" class="mb-4"></div>
+                    
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Quick Facts</h4>
+                    <ul id="event-facts-list" class="space-y-2 text-sm">
+                        <!-- Facts will be dynamically inserted here -->
+                    </ul>
+                </div>
+
+                <!-- Right Column: Sports Grid -->
+                <div class="lg:w-2/3">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Events to Take Part In</h3>
+                    <div id="sports-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <!-- Sports cards will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sport Details Modal (New) -->
+    <div id="sport-details-modal" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
+        <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-4xl relative max-h-[95vh] overflow-y-auto">
+            <button id="back-to-event-details" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="close-sport-details-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 id="sport-details-title" class="text-3xl font-bold text-gray-900 mb-2 text-center">Sport Details</h2>
+            <p id="sport-details-description" class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Description of the sport.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Parameters Section -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Key Performance Parameters</h3>
+                    <ul id="sport-parameters-list" class="space-y-2 text-gray-700">
+                        <!-- Parameters will be dynamically inserted here -->
+                    </ul>
+                </div>
+
+                <!-- Records Section -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Performance Benchmarks</h3>
+                    <div id="sport-records-container" class="space-y-4">
+                        <!-- Records will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        const ctaButtons = document.querySelectorAll('#cta-button, #hero-cta-button, #final-cta-button');
+        const landingPageContent = document.getElementById('landing-page-content');
+        const appPageContent = document.getElementById('app-page-content');
+        const body = document.body;
+
+        const profileModal = document.getElementById("profile-modal-overlay");
+        const loginBtnFromProfile = document.getElementById("login-btn-from-profile");
+        const signupBtnFromProfile = document.getElementById("signup-btn-from-profile");
+        const loginModal = document.getElementById("login-modal-overlay");
+        const signupModal = document.getElementById("signup-modal-overlay");
+        const loginForm = document.getElementById("login-form");
+        const signupForm = document.getElementById("signup-form");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const emailError = document.getElementById("email-error-message");
+        const passwordError = document.getElementById("password-error-message");
+        const forgotPasswordLink = document.getElementById("forgot-password-link");
+        const forgotPasswordModal = document.getElementById("forgot-password-modal-overlay");
+        const closeProfileModalBtn = document.getElementById("close-profile-modal");
+        const closeLoginModalBtn = document.getElementById("close-login-modal");
+        const closeSignupModalBtn = document.getElementById("close-signup-modal");
+        const closeForgotModalBtn = document.getElementById("close-forgot-modal");
+        const testCards = document.querySelectorAll(".test-card");
+        const testDetailModal = document.getElementById("test-detail-modal-overlay");
+        const testTitle = document.getElementById("test-title");
+        const closeTestModal = document.getElementById("close-test-modal");
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const tabContents = document.querySelectorAll(".tab-content");
+        const scoreHistoryModal = document.getElementById("score-history-modal");
+        const closeHistoryModal = document.getElementById("close-history-modal");
+        const historyVideoPlayer = document.getElementById("history-video-player");
+        const evaluatorComments = document.getElementById("evaluator-comments");
+        const leaderboardBody = document.getElementById("leaderboard-body");
+        const mainContent = document.getElementById("main-content");
+        const animatedBackground = document.getElementById("animated-background");
+        const backFromLoginBtn = document.getElementById("back-from-login");
+        const backFromSignupBtn = document.getElementById("back-from-signup");
+        const backFromForgotBtn = document.getElementById("back-from-forgot");
+        const backFromTestDetailsBtn = document.getElementById("back-from-test-details");
+        const backFromHistoryBtn = document.getElementById("back-from-history");
+        const aiCoachBtn = document.getElementById('ai-coach-btn');
+        const aiLoading = document.getElementById('ai-loading');
+        const aiFeedbackContainer = document.getElementById('ai-feedback-container');
+        const aiFeedbackText = document.getElementById('ai-feedback-text');
+
+        // New elements for custom message box
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+        const closeMessageBtn = document.getElementById('close-message');
+
+        // New elements for evaluation form
+        const uploadForm = document.getElementById('uploadForm');
+        const testAgeInput = document.getElementById('test-age');
+        const testHeightInput = document.getElementById('test-height');
+        const testWeightInput = document.getElementById('test-weight');
+        const testGenderInput = document.getElementById('test-gender');
+        const videoFileInput = document.getElementById('videoFile');
+        const videoFileName = document.getElementById('video-file-name');
+        const testAgeError = document.getElementById('test-age-error-message');
+        const testHeightError = document.getElementById('test-height-error-message');
+        const testWeightError = document.getElementById('test-weight-error-message');
+        const testGenderError = document.getElementById('test-gender-error-message');
+        const videoFileError = document.getElementById('video-file-error-message');
+        const uploadLoading = document.getElementById('upload-loading');
+        
+        // New elements for results display
+        const evaluationResultsSection = document.getElementById('evaluation-results-section');
+        const evalJumpHeight = document.getElementById('eval-jumpHeight');
+        const evalCheatProb = document.getElementById('eval-cheatProb');
+        const evalBenchmark = document.getElementById('eval-benchmark');
+        const evalVerified = document.getElementById('eval-verified');
+        const resultsDisplay = document.getElementById('results-display');
+        const jumpHeightSpan = document.getElementById('jumpHeight');
+        const cheatProbSpan = document.getElementById('cheatProb');
+        const benchmarkSpan = document.getElementById('benchmark');
+        const verifiedSpan = document.getElementById('verified');
+
+        // New elements for game-specific tests
+        const gameTestIcons = document.querySelectorAll('.game-icon-btn');
+        const gameTestModal = document.getElementById('game-test-modal-overlay');
+        const closeGameTestModal = document.getElementById('close-game-test-modal');
+        const gameTestTitle = document.getElementById('game-test-title');
+        const gameTestsListContainer = document.getElementById('game-tests-list-container');
+        const gameTestLeaderboardContainer = document.getElementById('game-test-leaderboard-container');
+        const testLeaderboardTitle = document.getElementById('test-leaderboard-title');
+        const gameLeaderboardBody = document.getElementById('game-leaderboard-body');
+        
+        // Profile modal elements
+        const profileName = document.getElementById('profile-name');
+        const profileAge = document.getElementById('profile-age');
+        const profileGender = document.getElementById('profile-gender');
+        const profileHeight = document.getElementById('profile-height');
+        const profileWeight = document.getElementById('profile-weight');
+        const profileBMI = document.getElementById('profile-bmi');
+        const profileLevel = document.getElementById('profile-level');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // New Modal elements
+        const eventDetailsModal = document.getElementById('event-details-modal');
+        const closeEventDetailsModalBtn = document.getElementById('close-event-details-modal');
+        const eventDetailsTitle = document.getElementById('event-details-title');
+        const sportsGrid = document.getElementById('sports-grid');
+
+        const sportDetailsModal = document.getElementById('sport-details-modal');
+        const closeSportDetailsModalBtn = document.getElementById('close-sport-details-modal');
+        const backToEventDetailsBtn = document.getElementById('back-to-event-details');
+        const sportDetailsTitle = document.getElementById('sport-details-title');
+        const sportDetailsDescription = document.getElementById('sport-details-description');
+        const sportParametersList = document.getElementById('sport-parameters-list');
+        const sportRecordsContainer = document.getElementById('sport-records-container');
+
+        // New elements for Daily Streaks
+        const streakSliderContainer = document.getElementById('streak-slider-container');
+
+        // Dummy data for different test streaks
+        const dailyStreakData = {
+            "Vertical Jump": [true, true, true, false, false, false, false], // Sun, Mon, Tue
+            "Sit-ups":       [true, false, true, true, true, false, false], // Sun, Tue, Wed, Thu
+            "Pull-ups":      [false, true, false, false, true, false, false], // Mon, Thu
+            "30-meter Sprint":   [true, true, true, true, true, true, true] // Everyday!
+        };
+
+        const leaderboardData = {
+            country: [
+                { rank: 1, name: "Neeraj Chopra", score: "88.44 m" },
+                { rank: 2, name: "Hima Das", score: "50.79 s" },
+                { rank: 3, name: "P.V. Sindhu", score: "89 km/h" },
+            ],
+            state: [
+                { rank: 1, name: "M. Manisha", score: "58 cm" },
+                { rank: 2, name: "A. Sharma", score: "54 cm" },
+                { rank: 3, name: "B. Singh", score: "52 cm" },
+            ],
+            district: [
+                { rank: 1, name: "C. Kumar", score: "60 cm" },
+                { rank: 2, name: "D. Devi", score: "59 cm" },
+                { rank: 3, name: "E. Patel", score: "57 cm" },
+            ],
+        };
+
+        const mainLeaderboardData = [
+            {
+                rank: 1,
+                name: "Neeraj Chopra",
+                address: "Panipat, Haryana",
+                state: "Haryana",
+                verified: true,
+                tests: {
+                    "Javelin Throw": "88.44m",
+                    "Sprint 400m": "50.79s",
+                    "High Jump": "2.10m"
+                },
+                recordHighlight: "Javelin Throw (88.44m)"
+            },
+            {
+                rank: 2,
+                name: "P.V. Sindhu",
+                address: "Hyderabad, Telangana",
+                state: "Telangana",
+                verified: true,
+                tests: {
+                    "Badminton Smash Speed": "340 km/h",
+                    "Vertical Jump": "55cm"
+                },
+                recordHighlight: "Badminton Smash (340 km/h)"
+            },
+            {
+                rank: 3,
+                name: "Virat Kohli",
+                address: "Delhi",
+                state: "Delhi",
+                verified: false,
+                tests: {
+                    "Push-Ups": "75 reps",
+                    "Sprint 100m": "11.5s"
+                },
+                recordHighlight: "Push-Ups (75 reps)"
+            }
+        ];
+
+        const gameSpecificTestDetails = {
+            football: {
+                name: "Football Fitness Tests",
+                tests: [
+                    { name: "Agility Cone Test", description: "Measures quickness, agility, and change of direction." },
+                    { name: "30-meter Sprint", description: "Assesses acceleration and straight-line speed." },
+                    { name: "Vertical Jump", description: "Measures explosive leg power." },
+                ],
+                leaderboards: {
+                    "Agility Cone Test": [
+                        { rank: 1, name: "A. Singh", score: "12.5s" },
+                        { rank: 2, name: "B. Das", score: "12.8s" },
+                    ],
+                    "30-meter Sprint": [
+                        { rank: 1, name: "C. Kumar", score: "3.9s" },
+                        { rank: 2, name: "D. Patel", score: "4.1s" },
+                    ],
+                    "Vertical Jump": [
+                         { rank: 1, name: "E. Sharma", score: "65cm" },
+                         { rank: 2, name: "F. Khan", score: "62cm" },
+                    ],
+                }
+            },
+            cricket: {
+                name: "Cricket Fitness Tests",
+                tests: [
+                    { name: "2km Time Trial", description: "Measures cardiovascular endurance." },
+                    { name: "Yo-Yo Test", description: "Evaluates repeated sprint ability and endurance." },
+                ],
+                leaderboards: {
+                    "2km Time Trial": [
+                        { rank: 1, name: "G. Rahul", score: "7:15 min" },
+                        { rank: 2, name: "H. Rohit", score: "7:25 min" },
+                    ],
+                    "Yo-Yo Test": [
+                        { rank: 1, name: "I. Kohli", score: "22.1" },
+                        { rank: 2, name: "J. Ashwin", score: "21.5" },
+                    ],
+                }
+            },
+            hockey: {
+                name: "Hockey Fitness Tests",
+                tests: [
+                    { name: "Multi-stage Fitness Test", description: "Assesses aerobic fitness and endurance." },
+                    { name: "Illinois Agility Test", description: "Measures speed, balance, and agility." },
+                ],
+                 leaderboards: {
+                    "Multi-stage Fitness Test": [
+                        { rank: 1, name: "K. Singh", score: "Level 14.2" },
+                        { rank: 2, name: "L. Kumar", score: "Level 14.0" },
+                    ],
+                    "Illinois Agility Test": [
+                        { rank: 1, name: "M. Rani", score: "15.5s" },
+                        { rank: 2, name: "N. Kaur", score: "15.8s" },
+                    ],
+                }
+            },
+            badminton: {
+                name: "Badminton Fitness Tests",
+                tests: [
+                    { name: "Badminton-Specific Agility Test", description: "Measures agility and quick footwork specific to badminton." },
+                    { name: "Vertical Jump", description: "Measures explosive leg power for smashes and jumps." },
+                ],
+                 leaderboards: {
+                    "Badminton-Specific Agility Test": [
+                        { rank: 1, name: "P. Sindhu", score: "20.1s" },
+                        { rank: 2, name: "S. Nehwal", score: "20.5s" },
+                    ],
+                    "Vertical Jump": [
+                        { rank: 1, name: "Q. Varma", score: "58cm" },
+                        { rank: 2, name: "R. Sharma", score: "56cm" },
+                    ],
+                }
+            },
+            athletics: {
+                name: "Athletics Fitness Tests",
+                tests: [
+                    { name: "100m Sprint", description: "Measures maximum sprinting speed." },
+                    { name: "Javelin Throw", description: "Measures explosive power and coordination." },
+                    { name: "Shot Put", description: "Tests upper body power and technique." },
+                ],
+                 leaderboards: {
+                    "100m Sprint": [
+                        { rank: 1, name: "T. Usain", score: "9.8s" },
+                        { rank: 2, name: "U. Carl", score: "9.9s" },
+                    ],
+                    "Javelin Throw": [
+                        { rank: 1, name: "V. Neeraj", score: "88.44m" },
+                        { rank: 2, name: "W. Keshorn", score: "84.1m" },
+                    ],
+                    "Shot Put": [
+                         { rank: 1, name: "X. Ryan", score: "22.5m" },
+                         { rank: 2, name: "Y. Tom", score: "22.1m" },
+                    ],
+                }
+            },
+        };
+
+        const majorEventsData = {
+            olympics: {
+                name: "Paris Olympics 2024",
+                date: "July 26 - August 11, 2024",
+                description: "The premier international multi-sport event, showcasing the world's best athletes in a celebration of sport and unity. It is the pinnacle of athletic achievement.",
+                imageUrl: "https://images.unsplash.com/photo-1518600155075-f5b2ac30a086?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                level: "Global Pinnacle",
+                facts: [
+                    "The first modern Olympics were held in Athens, Greece, in 1896.",
+                    "The five rings represent the five inhabited continents of the world.",
+                    "India first participated in the Olympics in 1900."
+                ],
+                sports: {
+                    boxing: {
+                        name: "Boxing",
+                        description: "A combat sport where two opponents test their strength, speed, reflexes, and endurance by throwing punches.",
+                        parameters: ["Punch Speed (m/s)", "Reaction Time (ms)", "Max Punch Force (N)", "Footwork Agility", "Stamina (VO2 Max)", "Defensive Slips/Min", "Jab Accuracy (%)"],
+                        records: {
+                            top: [
+                                { benchmark: "Punch Speed > 10 m/s", athlete: "Olympic Champion Level", details: "Elite boxers generate incredible speed, often faster than the blink of an eye." },
+                                { benchmark: "Reaction Time < 100 ms", athlete: "World Record Holder", details: "The ability to react instantly to an opponent's move is critical at the highest level." }
+                            ],
+                            average: [
+                                { benchmark: "Punch Speed: 6-8 m/s", athlete: "National Level Competitor", details: "A solid benchmark for athletes competing at the national championships." },
+                                { benchmark: "Jab Accuracy > 60%", athlete: "State Level Medalist", details: "Consistency in landing jabs is a key indicator of a skilled boxer." }
+                            ]
+                        }
+                    },
+                    archery: {
+                        name: "Archery",
+                        description: "The art, sport, and skill of using a bow to shoot arrows, requiring immense precision and mental focus.",
+                        parameters: ["Arrow Grouping Accuracy (cm)", "Heart Rate Control (bpm)", "Aim Stability", "Draw Weight (lbs)", "Wind Reading Accuracy", "Shot Execution Time (s)"],
+                        records: {
+                             top: [
+                                { benchmark: "Perfect Score (900/900)", athlete: "World Record Holder", details: "Achieving a perfect score in a 90-arrow round is the pinnacle of archery precision." },
+                                { benchmark: "Heart Rate < 60 bpm under pressure", athlete: "Olympic Medalist", details: "Maintaining calm and control is as crucial as physical skill." }
+                            ],
+                            average: [
+                                { benchmark: "Score > 850/900", athlete: "National Team Selection", details: "Consistently scoring above 850 is often required for national team consideration." },
+                                { benchmark: "Arrow Grouping < 5cm at 70m", athlete: "Junior National Champion", details: "Tight arrow grouping is a fundamental skill for competitive archers." }
+                            ]
+                        }
+                    },
+                    athletics: {
+                        name: "Athletics (Javelin)",
+                        description: "A collection of sporting events that involve competitive running, jumping, throwing, and walking. Focus on Javelin.",
+                        parameters: ["Javelin Throw Distance (m)", "Run-up Speed (m/s)", "Release Angle (degrees)", "Core Strength (Med Ball Throw)", "Flexibility (Shoulder Range)"],
+                        records: {
+                            top: [
+                                { benchmark: "Javelin Throw > 90m", athlete: "World Champion Level", details: "Only a handful of athletes have ever surpassed the 90-meter mark." },
+                                { benchmark: "Run-up speed > 6 m/s", athlete: "Neeraj Chopra", details: "Generating high speed during the run-up is crucial for a powerful throw." }
+                            ],
+                            average: [
+                                { benchmark: "Javelin Throw > 75m", athlete: "National Record Holder", details: "A throw over 75 meters is highly competitive at the national level in India." },
+                                { benchmark: "Release Angle: 33-37 degrees", athlete: "University Level Champion", details: "Mastering the optimal release angle is key to maximizing distance." }
+                            ]
+                        }
+                    }
+                }
+            },
+            commonwealth: {
+                name: "Commonwealth Games 2026",
+                date: "March 17-29, 2026",
+                description: "A multi-sport event among athletes from the Commonwealth of Nations, often referred to as the 'Friendly Games' for its spirit of camaraderie.",
+                imageUrl: "https://images.unsplash.com/photo-1627993081489-f53835081014?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                level: "International",
+                facts: [
+                    "It is an international multi-sport event involving athletes from the Commonwealth of Nations.",
+                    "Only six teams have attended every Commonwealth Games since its inception in 1930.",
+                    "India hosted the games in 2010 in Delhi, a landmark event for the country."
+                ],
+                sports: {
+                     weightlifting: {
+                        name: "Weightlifting",
+                        description: "An athletic discipline in which the athlete attempts a single maximum-weight lift of a barbell loaded with weight plates.",
+                        parameters: ["Snatch Max (kg)", "Clean & Jerk Max (kg)", "Bodyweight to Lift Ratio", "Grip Strength (kg)", "Leg Power (Vertical Jump)"],
+                        records: {
+                            top: [
+                                { benchmark: "Total Lift > 2.5x Bodyweight", athlete: "Mirabai Chanu", details: "Lifting more than double one's bodyweight is a sign of an elite competitor." },
+                                { benchmark: "Clean & Jerk > 140kg", athlete: "World Record Holder (Category)", details: "This level of strength is seen only at the highest international competitions." }
+                           ],
+                            average: [
+                                { benchmark: "Total Lift > 2x Bodyweight", athlete: "National Champion", details: "A common benchmark for medal winners at national events." },
+                                { benchmark: "Snatch: 90-100kg", athlete: "State Level Gold Medalist", details: "Mastery of the snatch technique at this weight is crucial for progression." }
+                            ]
+                        }
+                    },
+                     wrestling: {
+                        name: "Wrestling",
+                        description: "A combat sport involving grappling-type techniques such as clinch fighting, throws and takedowns, joint locks, and pins.",
+                        parameters: ["Takedown Success Rate (%)", "Defensive Score", "Stamina Index (Lactate Threshold)", "Grip Endurance (s)", "Reaction to Takedown (ms)"],
+                        records: {
+                            top: [
+                                { benchmark: "Takedown Rate > 80%", athlete: "Olympic Champion Level", details: "Dominant wrestlers consistently succeed in their takedown attempts." },
+                                { benchmark: "0 points conceded in a tournament", athlete: "Bajrang Punia (at times)", details: "A perfect defensive record is a rare and incredible feat." }
+                            ],
+                            average: [
+                                { benchmark: "Takedown Rate > 50%", athlete: "National Level Medalist", details: "Securing more than half of takedown attempts is a strong indicator of skill." },
+                                { benchmark: "Win by technical superiority", athlete: "Junior National Competitor", details: "Demonstrates a significant skill gap against opponents." }
+                            ]
+                        }
+                    }
+                }
+            },
+             khelo_india: {
+                name: "Khelo India Youth Games",
+                date: "Annually in Winter",
+                description: "A national level multi-disciplinary grassroots games in India, introduced to revive the sports culture at the ground level for under-17 and under-21 athletes.",
+                imageUrl: "https://images.unsplash.com/photo-1579952778643-9828236c34eb?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                level: "National - Grassroots",
+                facts: [
+                    "Aimed at identifying and nurturing young sporting talent across India.",
+                    "Top-performing athletes receive annual scholarships for training and development.",
+                    "Promotes a wide range of traditional Indian sports alongside modern disciplines."
+                ],
+                sports: {
+                    swimming: {
+                        name: "Swimming",
+                        description: "Competitive swimming involves racing through water using various strokes.",
+                        parameters: ["50m Freestyle Time (s)", "Turn Efficiency (%)", "Start Reaction Time (ms)", "Stroke Rate (strokes/min)", "Underwater Dolphin Kicks"],
+                        records: {
+                            top: [
+                                { benchmark: "50m Freestyle < 22s", athlete: "World Record Pace", details: "Breaking the 22-second barrier is a mark of a world-class sprinter." },
+                                { benchmark: "Start Reaction < 0.6s", athlete: "Olympic Finalist", details: "An explosive start can make a significant difference in short races." }
+                            ],
+                            average: [
+                                { benchmark: "50m Freestyle < 25s", athlete: "National Record Holder", details: "This is a highly competitive time at the Indian national level." },
+                                { benchmark: "Turn Efficiency > 90%", athlete: "State Champion", details: "Minimizing time loss during turns is crucial for competitive swimmers." }
+                            ]
+                        }
+                    },
+                    kabaddi: {
+                        name: "Kabaddi",
+                        description: "A contact team sport that requires both skill and power, combining elements of wrestling and rugby.",
+                        parameters: ["Successful Raid Points per match", "Tackle Success Rate (%)", "Time on Mat (min)", "Avg. Raid Time (s)", "Super Raids"],
+                        records: {
+                            top: [
+                                { benchmark: "Avg. 10+ Raid Points/Match", athlete: "Pardeep Narwal", details: "Consistently scoring high raid points is the mark of a star raider." },
+                                { benchmark: "Tackle Success Rate > 60%", athlete: "Pro Kabaddi Best Defender", details: "Elite defenders have a high success rate in stopping raiders." }
+                            ],
+                            average: [
+                                { benchmark: "Avg. 5-7 Raid Points/Match", athlete: "National Level Raider", details: "A solid contribution that can win matches for the team." },
+                                { benchmark: "Tackle Success Rate > 40%", athlete: "State Level Defender", details: "A reliable defender who can contribute crucial tackle points." }
+                            ]
+                        }
+                    }
+                }
+            }
+        };
+
+        let currentMajorEvent = null; // To keep track of the currently viewed major event
+
+        // Function to show a modal with transition
+        function showModal(modal) {
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+            setTimeout(() => {
+                modal.classList.add("modal-active");
+            }, 10);
+        }
+
+        // Function to hide a modal with transition
+        function hideModal(modal) {
+            modal.classList.remove("modal-active");
+            document.body.style.overflow = "auto";
+            setTimeout(() => {
+                modal.classList.add("hidden");
+            }, 300);
+        }
+
+        // Handle navigation from landing page to app page
+        ctaButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                landingPageContent.classList.add('hidden');
+                appPageContent.classList.remove('hidden');
+                body.classList.add('app-background');
+                showModal(profileModal);
+                runAppPageScripts();
+            });
+        });
+        
+        const backToLandingBtn = document.getElementById('back-to-landing-btn');
+        if (backToLandingBtn) {
+            backToLandingBtn.addEventListener('click', () => {
+                // First, hide any currently open modals to ensure a clean transition
+                if (!profileModal.classList.contains('hidden')) hideModal(profileModal);
+                if (!loginModal.classList.contains('hidden')) hideModal(loginModal);
+                if (!signupModal.classList.contains('hidden')) hideModal(signupModal);
+                if (!forgotPasswordModal.classList.contains('hidden')) hideModal(forgotPasswordModal);
+                if (!testDetailModal.classList.contains('hidden')) hideModal(testDetailModal);
+                if (!scoreHistoryModal.classList.contains('hidden')) hideModal(scoreHistoryModal);
+                if (!gameTestModal.classList.contains('hidden')) hideModal(gameTestModal);
+
+                // Then, transition back to the landing page
+                appPageContent.classList.add('hidden');
+                landingPageContent.classList.remove('hidden');
+                body.classList.remove('app-background');
+            });
+        }
+
+
+        const profileButtonApp = document.getElementById("profile-menu-button-app");
+        if (profileButtonApp) {
+            profileButtonApp.addEventListener("click", () => {
+                updateProfileModal();
+                showModal(profileModal);
+            });
+        }
+        
+        closeProfileModalBtn.addEventListener("click", () => hideModal(profileModal));
+        closeLoginModalBtn.addEventListener("click", () => hideModal(loginModal));
+        closeSignupModalBtn.addEventListener("click", () => hideModal(signupModal));
+        closeForgotModalBtn.addEventListener("click", () =>
+            hideModal(forgotPasswordModal)
+        );
+        closeGameTestModal.addEventListener("click", () => {
+             hideModal(gameTestModal);
+             mainContent.classList.remove("hidden");
+             animatedBackground.classList.remove("hidden");
+        });
+
+
+        // Test Details Modals
+        closeTestModal.addEventListener("click", () => {
+            hideModal(testDetailModal);
+            mainContent.classList.remove("hidden");
+            animatedBackground.classList.remove("hidden");
+        });
+
+        closeHistoryModal.addEventListener("click", () => {
+            hideModal(scoreHistoryModal);
+            historyVideoPlayer.src = "";
+            aiFeedbackContainer.classList.add('hidden');
+            resultsDisplay.classList.add('hidden');
+        });
+        
+        closeMessageBtn.addEventListener('click', () => {
+            hideModal(messageBox);
+        });
+        
+        function showMessage(message, type = 'info') {
+            messageText.textContent = message;
+            if (type === 'error') {
+                messageBox.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 rounded-lg shadow-xl text-center z-[100] transition-opacity duration-300 ease-in-out bg-red-500 text-white';
+            } else if (type === 'success') {
+                messageBox.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 rounded-lg shadow-xl text-center z-[100] transition-opacity duration-300 ease-in-out bg-green-500 text-white';
+            } else {
+                messageBox.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 rounded-lg shadow-xl text-center z-[100] transition-opacity duration-300 ease-in-out bg-blue-500 text-white';
+            }
+            showModal(messageBox);
+        }
+
+
+        backFromLoginBtn.addEventListener("click", () => {
+            hideModal(loginModal);
+            showModal(profileModal);
+        });
+
+        backFromSignupBtn.addEventListener("click", () => {
+            hideModal(signupModal);
+            showModal(profileModal);
+        });
+
+        backFromForgotBtn.addEventListener("click", () => {
+            hideModal(forgotPasswordModal);
+            showModal(loginModal);
+        });
+
+        backFromTestDetailsBtn.addEventListener("click", () => {
+            hideModal(testDetailModal);
+            mainContent.classList.remove("hidden");
+            animatedBackground.classList.remove("hidden");
+        });
+
+        [
+            profileModal,
+            loginModal,
+            signupModal,
+            forgotPasswordModal,
+            testDetailModal,
+            scoreHistoryModal,
+            gameTestModal,
+            eventDetailsModal, // Add new modals to the list
+            sportDetailsModal,
+        ].forEach((modal) => {
+            modal.addEventListener("click", (event) => {
+                const content = modal.querySelector(
+                    ".modal-content-container, .modal-content"
+                );
+                if (content && !content.contains(event.target)) {
+                    if (modal.id === "test-detail-modal-overlay" || modal.id === "game-test-modal-overlay") {
+                        hideModal(modal);
+                        mainContent.classList.remove("hidden");
+                        animatedBackground.classList.remove("hidden");
+                    } else {
+                        hideModal(modal);
+                    }
+                }
+            });
+        });
+
+        function validateField(inputElement, errorMessageElement) {
+            if (inputElement.value.trim() === "") {
+                errorMessageElement.classList.remove("hidden");
+                inputElement.classList.add("border-red-500");
+                return false;
+            } else {
+                errorMessageElement.classList.add("hidden");
+                inputElement.classList.remove("border-red-500");
+                return true;
+            }
+        }
+        
+        function validateFile(fileInput, errorMessageElement) {
+            if (fileInput.files.length === 0) {
+                errorMessageElement.classList.remove("hidden");
+                return false;
+            } else {
+                errorMessageElement.classList.add("hidden");
+                return true;
+            }
+        }
+
+        if (loginForm) {
+            loginForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const isEmailValid = validateField(emailInput, emailError);
+                const isPasswordValid = validateField(passwordInput, passwordError);
+                if (isEmailValid && isPasswordValid) {
+                    console.log("Login successful! (Simulated)");
+                }
+            });
+        }
+        
+        if (signupForm) {
+            signupForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const firstNameInput = document.getElementById("first-name");
+                const lastNameInput = document.getElementById("last-name");
+                const signupEmailInput = document.getElementById("signup-email");
+                const phoneNumberInput = document.getElementById("phone-number");
+                const ageInput = document.getElementById("age");
+                const heightInput = document.getElementById("height");
+                const weightInput = document.getElementById("weight");
+                const countryInput = document.getElementById("country");
+                const districtInput = document.getElementById("district");
+                const addressInput = document.getElementById("address");
+
+                const isFirstNameValid = validateField(
+                    firstNameInput,
+                    document.getElementById("first-name-error-message")
+                );
+                const isLastNameValid = validateField(
+                    lastNameInput,
+                    document.getElementById("last-name-error-message")
+                );
+                const isSignupEmailValid = validateField(
+                    signupEmailInput,
+                    document.getElementById("signup-email-error-message")
+                );
+                const isPhoneNumberValid = validateField(
+                    phoneNumberInput,
+                    document.getElementById("phone-number-error-message")
+                );
+                const isAgeValid = validateField(
+                    ageInput,
+                    document.getElementById("age-error-message")
+                );
+                const isHeightValid = validateField(
+                    heightInput,
+                    document.getElementById("height-error-message")
+                );
+                const isWeightValid = validateField(
+                    weightInput,
+                    document.getElementById("weight-error-message")
+                );
+                const isCountryValid = validateField(
+                    countryInput,
+                    document.getElementById("country-error-message")
+                );
+                const isDistrictValid = validateField(
+                    districtInput,
+                    document.getElementById("district-error-message")
+                );
+                const isAddressValid = validateField(
+                    addressInput,
+                    document.getElementById("address-error-message")
+                );
+
+                if (
+                    isFirstNameValid &&
+                    isLastNameValid &&
+                    isSignupEmailValid &&
+                    isPhoneNumberValid &&
+                    isAgeValid &&
+                    isHeightValid &&
+                    isWeightValid &&
+                    isCountryValid &&
+                    isDistrictValid &&
+                    isAddressValid
+                ) {
+                    console.log("Sign up successful! (Simulated)");
+                }
+            });
+        }
+
+        if (emailInput) emailInput.addEventListener("input", () => validateField(emailInput, emailError));
+        if (passwordInput) passwordInput.addEventListener("input", () => validateField(passwordInput, passwordError));
+        if (document.getElementById("first-name")) document.getElementById("first-name").addEventListener("input", () => validateField(document.getElementById("first-name"), document.getElementById("first-name-error-message")));
+        if (document.getElementById("last-name")) document.getElementById("last-name").addEventListener("input", () => validateField(document.getElementById("last-name"), document.getElementById("last-name-error-message")));
+        if (document.getElementById("signup-email")) document.getElementById("signup-email").addEventListener("input", () => validateField(document.getElementById("signup-email"), document.getElementById("signup-email-error-message")));
+        if (document.getElementById("phone-number")) document.getElementById("phone-number").addEventListener("input", () => validateField(document.getElementById("phone-number"), document.getElementById("phone-number-error-message")));
+        if (document.getElementById("age")) document.getElementById("age").addEventListener("input", () => validateField(document.getElementById("age"), document.getElementById("age-error-message")));
+        if (document.getElementById("height")) document.getElementById("height").addEventListener("input", () => validateField(document.getElementById("height"), document.getElementById("height-error-message")));
+        if (document.getElementById("weight")) document.getElementById("weight").addEventListener("input", () => validateField(document.getElementById("weight"), document.getElementById("weight-error-message")));
+        if (document.getElementById("country")) document.getElementById("country").addEventListener("input", () => validateField(document.getElementById("country"), document.getElementById("country-error-message")));
+        if (document.getElementById("district")) document.getElementById("district").addEventListener("input", () => validateField(document.getElementById("district"), document.getElementById("district-error-message")));
+        if (document.getElementById("address")) document.getElementById("address").addEventListener("input", () => validateField(document.getElementById("address"), document.getElementById("address-error-message")));
+        
+        // New event listeners for the evaluation form fields
+        if (testAgeInput) testAgeInput.addEventListener("input", () => validateField(testAgeInput, testAgeError));
+        if (testHeightInput) testHeightInput.addEventListener("input", () => validateField(testHeightInput, testHeightError));
+        if (testWeightInput) testWeightInput.addEventListener("input", () => validateField(testWeightInput, testWeightError));
+        if (testGenderInput) testGenderInput.addEventListener("input", () => validateField(testGenderInput, testGenderError));
+        if (videoFileInput) {
+            videoFileInput.addEventListener('change', () => {
+                if (videoFileInput.files.length > 0) {
+                    videoFileName.textContent = videoFileInput.files[0].name;
+                } else {
+                    videoFileName.textContent = 'Click to upload your video';
+                }
+            });
+        }
+
+
+        let lastEvaluationResults = null;
+
+        uploadForm.addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            // Validate form fields
+            const isAgeValid = validateField(testAgeInput, testAgeError);
+            const isHeightValid = validateField(testHeightInput, testHeightError);
+            const isWeightValid = validateField(testWeightInput, testWeightError);
+            const isGenderValid = validateField(testGenderInput, testGenderError);
+            const isVideoValid = validateFile(videoFileInput, videoFileError);
+            
+            if (!isAgeValid || !isHeightValid || !isWeightValid || !isGenderValid || !isVideoValid) {
+                return;
+            }
+
+            uploadLoading.classList.remove('hidden');
+            evaluationResultsSection.classList.add('hidden');
+            
+            const formData = new FormData();
+            formData.append("file", videoFileInput.files[0]);
+            formData.append("age", testAgeInput.value);
+            formData.append("gender", testGenderInput.value);
+
+            // --- IMPORTANT: Backend Server Connection Note ---
+            // The 'Failed to fetch' error often means the local server is not running
+            // or there is a CORS (Cross-Origin Resource Sharing) issue.
+            // 
+            // 1. Ensure your FastAPI server is running with `uvicorn main:app --reload`.
+            // 2. Add `CORSMiddleware` to your FastAPI app to allow requests from this page's origin.
+            //    Example:
+            //    from fastapi.middleware.cors import CORSMiddleware
+            //    app = FastAPI()
+            //    app.add_middleware(
+            //        CORSMiddleware,
+            //        allow_origins=["*"],  // Use a specific origin like "http://localhost:3000" in production
+            //        allow_credentials=True,
+            //        allow_methods=["*"],
+            //        allow_headers=["*"],
+            //    )
+            // ----------------------------------------------------
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/analyze", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log(result);
+
+                // Store the result for the AI coach
+                lastEvaluationResults = {
+                    testName: testTitle.textContent,
+                    score: `${result.maxJumpHeight.toFixed(2)} cm`,
+                    jumpHeight: `${result.maxJumpHeight.toFixed(2)} cm`,
+                    cheatProbability: `${(result.cheatProbability * 100).toFixed(0)}%`,
+                    benchmark: result.benchmark ?? "N/A",
+                    status: result.verified ? "✅ Verified" : "❌ Not Verified",
+                    comments: result.comments ?? "No specific comments provided by the evaluator."
+                };
+
+                evaluationResultsSection.classList.remove("hidden");
+                evalJumpHeight.textContent = lastEvaluationResults.jumpHeight;
+                evalCheatProb.textContent = lastEvaluationResults.cheatProbability;
+                evalBenchmark.textContent = lastEvaluationResults.benchmark;
+                evalVerified.textContent = lastEvaluationResults.status;
+                showMessage("Video submitted successfully! Results are now available.", "success");
+
+            } catch (error) {
+                console.error("Error during analysis:", error);
+                // Handle error state with a custom message
+                evaluationResultsSection.classList.add("hidden");
+                showMessage(`An error occurred: Could not connect to the backend server. Please ensure the server is running and configured correctly.`, 'error');
+            } finally {
+                uploadLoading.classList.add('hidden');
+            }
+        });
+
+        function runAppPageScripts() {
+            // Updated: Daily Streaks Logic with slider buttons
+            function setupStreakSlider() {
+                const testNames = Object.keys(dailyStreakData);
+                streakSliderContainer.innerHTML = ''; // Clear previous buttons
+
+                testNames.forEach(name => {
+                    const button = document.createElement('button');
+                    button.className = 'streak-slider-btn';
+                    button.textContent = name;
+                    button.dataset.testName = name;
+                    button.addEventListener('click', () => {
+                        // Remove active class from all buttons
+                        streakSliderContainer.querySelectorAll('.streak-slider-btn').forEach(btn => btn.classList.remove('active'));
+                        // Add active class to the clicked button
+                        button.classList.add('active');
+                        // Render the streaks for the selected test
+                        renderDailyStreaks(name);
+                    });
+                    streakSliderContainer.appendChild(button);
+                });
+                
+                // Initial render with the first test in the list
+                if (testNames.length > 0) {
+                    streakSliderContainer.querySelector('.streak-slider-btn').classList.add('active');
+                    renderDailyStreaks(testNames[0]);
+                }
+            }
+            
+            function renderDailyStreaks(testName) {
+                const streaksContainer = document.getElementById('daily-streaks-container');
+                const currentStreakCount = document.getElementById('current-streak-count');
+                
+                const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+                const today = new Date().getDay(); // Sunday = 0, Monday = 1, etc.
+                const streakData = dailyStreakData[testName] || [false, false, false, false, false, false, false]; // Default to all false if test is not found
+                
+                streaksContainer.innerHTML = '';
+                let activeStreakCount = 0;
+
+                streakData.forEach((isActive, index) => {
+                    if(isActive) activeStreakCount++;
+
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'text-center';
+
+                    const circle = document.createElement('div');
+                    circle.className = `streak-day w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-lg ${isActive ? 'active' : 'bg-gray-200 text-gray-400'}`;
+                    circle.textContent = days[index];
+                    
+                    const label = document.createElement('p');
+                    label.className = `day-label text-xs mt-1 font-medium ${isActive ? 'text-orange-600' : 'text-gray-500'}`;
+                    label.textContent = index === today ? 'Today' : '';
+
+                    dayElement.appendChild(circle);
+                    dayElement.appendChild(label);
+                    streaksContainer.appendChild(dayElement);
+                });
+                
+                currentStreakCount.textContent = `${activeStreakCount} Days`;
+            }
+
+
+            const carouselContainer = document.getElementById("carousel-container");
+            const majorEventKeys = Object.keys(majorEventsData);
+            let currentSlide = 0;
+
+            const showSlide = () => {
+                const eventKey = majorEventKeys[currentSlide];
+                const slideData = majorEventsData[eventKey];
+                const slideElement = document.createElement("div");
+                slideElement.className = "absolute top-0 left-0 w-full h-full bg-cover bg-center fade-in flex flex-col items-center justify-end text-center p-8";
+                slideElement.style.backgroundImage = `url('${slideData.imageUrl}')`;
+                
+                slideElement.innerHTML = `
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="relative z-10 text-white space-y-3">
+                        <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold drop-shadow-lg">${slideData.name}</h2>
+                        <p class="text-lg font-medium">${slideData.date}</p>
+                        <p class="text-md max-w-2xl mx-auto">${slideData.description}</p>
+                        <button class="mt-4 bg-orange-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-orange-700 transition duration-300 view-event-details-btn" data-event-key="${eventKey}">
+                            View Details
+                        </button>
+                    </div>`;
+
+                while (carouselContainer.firstChild) {
+                    carouselContainer.firstChild.remove();
+                }
+                carouselContainer.appendChild(slideElement);
+
+                // Add event listener to the new button
+                slideElement.querySelector('.view-event-details-btn').addEventListener('click', (e) => {
+                    const key = e.target.dataset.eventKey;
+                    openEventDetailsModal(key);
+                });
+            };
+
+            const nextSlide = () => {
+                currentSlide = (currentSlide + 1) % majorEventKeys.length;
+                showSlide();
+            };
+            
+            showSlide();
+            setInterval(nextSlide, 5000);
+            setupStreakSlider(); // Initialize daily streaks slider
+
+            // General fitness tests listeners
+            document.querySelectorAll('.test-card').forEach(card => card.addEventListener("click", handleTestCardClick));
+
+            function handleTestCardClick(e) {
+                const testName = e.currentTarget.getAttribute("data-test-name");
+                testTitle.textContent = testName;
+                mainContent.classList.add("hidden");
+                animatedBackground.classList.add("hidden");
+                showModal(testDetailModal);
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove("border-orange-600", "text-orange-600");
+                    btn.classList.add("border-transparent", "text-gray-500");
+                });
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.add("hidden"));
+                document.querySelector('.tab-btn[data-tab-name="evaluation"]').classList.add("border-orange-600", "text-orange-600");
+                document.getElementById("evaluation-tab-content").classList.remove("hidden");
+                loadLeaderboard("country");
+            }
+
+            // Game-specific tests modal logic
+            gameTestIcons.forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    const sportName = e.currentTarget.dataset.sportName;
+                    const sportDetails = gameSpecificTestDetails[sportName];
+                    gameTestTitle.textContent = sportDetails.name;
+                    
+                    renderGameTests(sportDetails.tests, sportName);
+                    
+                    mainContent.classList.add("hidden");
+                    animatedBackground.classList.add("hidden");
+                    showModal(gameTestModal);
+                });
+            });
+
+            closeGameTestModal.addEventListener('click', () => {
+                hideModal(gameTestModal);
+                mainContent.classList.remove('hidden');
+                animatedBackground.classList.remove('hidden');
+            });
+
+            function renderGameTests(tests, sportName) {
+                let html = '';
+                tests.forEach(test => {
+                    html += `
+                        <div class="test-card-game bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="${test.name}" data-sport-name="${sportName}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20v-8M9 15l3-3 3 3M12 4l-4 4h8l-4-4z"/>
+                            </svg>
+                            <h3 class="font-semibold text-lg text-gray-900 mb-2">${test.name}</h3>
+                            <p class="text-sm text-gray-500">${test.description}</p>
+                        </div>
+                    `;
+                });
+                gameTestsListContainer.innerHTML = html;
+                gameTestLeaderboardContainer.classList.add('hidden'); // Hide leaderboard initially
+
+                // Add event listeners to the new game test cards
+                document.querySelectorAll('.test-card-game').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        const testName = e.currentTarget.dataset.testName;
+                        const sportName = e.currentTarget.dataset.sportName;
+                        const leaderboard = gameSpecificTestDetails[sportName].leaderboards[testName];
+                        
+                        renderGameLeaderboard(testName, leaderboard);
+                    });
+                });
+            }
+
+            function renderGameLeaderboard(testName, data) {
+                testLeaderboardTitle.textContent = `Leaderboard: ${testName}`;
+                let html = '';
+                data.forEach(user => {
+                    html += `
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${user.rank}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${user.name}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.score}</td>
+                        </tr>
+                    `;
+                });
+                gameLeaderboardBody.innerHTML = html;
+                gameTestLeaderboardContainer.classList.remove('hidden'); // Show leaderboard
+            }
+
+            tabButtons.forEach((button) => {
+                button.addEventListener("click", (e) => {
+                    tabButtons.forEach((btn) => {
+                        btn.classList.remove("border-orange-600", "text-orange-600");
+                        btn.classList.add("border-transparent", "text-gray-500");
+                    });
+                    tabContents.forEach((content) => content.classList.add("hidden"));
+                    const tabName = e.target.getAttribute("data-tab-name");
+                    e.target.classList.remove("border-transparent", "text-gray-500");
+                    e.target.classList.add("border-orange-600", "text-orange-600");
+                    document.getElementById(`${tabName}-tab-content`).classList.remove("hidden");
+                });
+            });
+
+            document.querySelectorAll(".history-row").forEach((row) => {
+                row.addEventListener("click", () => {
+                    const testName = document.getElementById("test-title").textContent;
+                    const date = row.querySelector("td:first-child").textContent;
+                    const score = row.querySelector("td:nth-child(2)").textContent;
+                    const comments = row.getAttribute("data-comments");
+                    
+                    lastEvaluationResults = {
+                        testName: testName,
+                        score: score,
+                        jumpHeight: row.getAttribute('data-jump-height'),
+                        cheatProbability: row.getAttribute('data-cheat-prob'),
+                        benchmark: row.getAttribute('data-benchmark'),
+                        status: row.getAttribute('data-status'),
+                        comments: comments
+                    };
+
+                    historyVideoPlayer.src = row.getAttribute("data-video-url");
+                    evaluatorComments.textContent = comments;
+                    
+                    // Populate the results display section
+                    jumpHeightSpan.textContent = lastEvaluationResults.jumpHeight;
+                    cheatProbSpan.textContent = lastEvaluationResults.cheatProbability;
+                    benchmarkSpan.textContent = lastEvaluationResults.benchmark;
+                    verifiedSpan.textContent = lastEvaluationResults.status;
+                    resultsDisplay.classList.remove('hidden');
+                    
+                    aiFeedbackText.textContent = "";
+                    aiFeedbackContainer.classList.add('hidden');
+                    
+
+                    showModal(scoreHistoryModal);
+                });
+            });
+            
+            aiCoachBtn.addEventListener('click', async () => {
+                if (!lastEvaluationResults) {
+                    showMessage("Please submit an evaluation or select a score from history first.", "info");
+                    return;
+                }
+
+                const { testName, score, jumpHeight, cheatProbability, benchmark, status, comments } = lastEvaluationResults;
+                const age = profileAge.textContent.replace(' Age', '');
+                const height = profileHeight.textContent.replace(' cm', '');
+                const weight = profileWeight.textContent.replace(' kg', '');
+
+                aiLoading.classList.remove('hidden');
+                aiFeedbackContainer.classList.add('hidden');
+                aiCoachBtn.disabled = true;
+
+                const userQuery = `I am a ${age} year old athlete, ${height}cm tall, weighing ${weight}kg. I recently took a sports talent assessment test called "${testName}". My score was "${score}". My jump height was ${jumpHeight}, my cheat probability was ${cheatProbability}, and the benchmark is ${benchmark}. The evaluator left this comment: "${comments}". Provide me with a concise, single-paragraph summary of my performance and offer one or two specific, actionable tips to improve, focusing on technique and form.`;
+                const apiKey = ""
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: {
+                        parts: [{ text: "Act as a highly experienced sports coach and performance analyst. Your tone should be encouraging, professional, and insightful." }]
+                    },
+                };
+
+                let response;
+                let retries = 0;
+                const maxRetries = 3;
+                let delay = 1000;
+
+                while (retries < maxRetries) {
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                            break; // Success, exit the loop
+                        } else if (response.status === 429) {
+                            // Too Many Requests, implement exponential backoff
+                            console.log(`Rate limit exceeded. Retrying in ${delay / 1000} seconds...`);
+                            await new Promise(res => setTimeout(res, delay));
+                            delay *= 2; // Double the delay for the next retry
+                            retries++;
+                        } else {
+                            // Other errors, throw to be caught below
+                            response.json().then(error => console.error('API Error:', error)).catch(() => console.error('API Error:', response.statusText));
+                            throw new Error('API call failed');
+                        }
+                    } catch (error) {
+                        console.error('Fetch Error:', error);
+                        retries++;
+                        if (retries === maxRetries) {
+                            aiFeedbackText.textContent = 'Sorry, I couldn\'t generate feedback right now. Please try again later.';
+                            aiFeedbackContainer.classList.remove('hidden');
+                            aiLoading.classList.add('hidden');
+                            aiCoachBtn.disabled = false;
+                            return;
+                        }
+                    }
+                }
+                
+                if (response && response.ok) {
+                    const result = await response.json();
+                    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate feedback right now.";
+                    aiFeedbackText.textContent = text;
+                    aiFeedbackContainer.classList.remove('hidden');
+                } else {
+                    aiFeedbackText.textContent = 'Sorry, I couldn\'t generate feedback right now. Please try again later.';
+                    aiFeedbackContainer.classList.remove('hidden');
+                }
+                
+                aiLoading.classList.add('hidden');
+                aiCoachBtn.disabled = false;
+            });
+
+            document.getElementById("filter-country").addEventListener("click", () => loadLeaderboard("country"));
+            document.getElementById("filter-state").addEventListener("click", () => loadLeaderboard("state"));
+            document.getElementById("filter-district").addEventListener("click", () => loadLeaderboard("district"));
+
+            function loadLeaderboard(filter) {
+                const data = leaderboardData[filter];
+                let html = "";
+                data.forEach((item) => {
+                    html += `
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.rank}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.name}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.score}</td>
+                        </tr>
+                    `;
+                });
+                leaderboardBody.innerHTML = html;
+            }
+
+            function renderMainLeaderboard(data) {
+                const tableBody = document.getElementById("main-leaderboard-body");
+                const cardsContainer = document.getElementById("main-leaderboard-cards");
+                if (!tableBody || !cardsContainer) return;
+
+                tableBody.innerHTML = "";
+                cardsContainer.innerHTML = ""; 
+
+                data.forEach(user => {
+                    // Create Table Row (for desktop)
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td class="px-6 py-4 text-sm leaderboard-rank">${user.rank}</td><td class="px-6 py-4 text-sm text-gray-700">${user.name}</td><td class="px-6 py-4 text-sm text-gray-500">${user.address}</td><td class="px-6 py-4 text-sm text-gray-500">${user.state}</td><td class="px-6 py-4 text-sm"><span class="${user.verified ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} px-2 py-1 rounded-full text-xs font-semibold">${user.verified ? "✅ Verified" : "❌ Not Verified"}</span></td><td class="px-6 py-4 text-sm text-gray-600">${Object.entries(user.tests).map(([test, result]) => `${test}: ${result}`).join("<br>")}</td><td class="px-6 py-4 text-sm leaderboard-highlight">🏅 ${user.recordHighlight}</td>`;
+                    tableBody.appendChild(row);
+
+                    // Create Card (for mobile)
+                    const card = document.createElement("div");
+                    card.className = "p-4 border-b border-gray-200";
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-bold text-lg text-gray-800">${user.name}</p>
+                                <p class="text-sm text-gray-500">${user.address}</p>
+                            </div>
+                            <div class="text-right flex-shrink-0 ml-4">
+                                <p class="text-2xl font-bold leaderboard-rank">${user.rank}</p>
+                                <span class="${user.verified ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} px-2 py-1 mt-1 inline-block rounded-full text-xs font-semibold">${user.verified ? "✅ Verified" : "❌ Not Verified"}</span>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="font-semibold text-gray-700 text-sm">Fitness Tests:</p>
+                            <p class="text-sm text-gray-600">${Object.entries(user.tests).map(([test, result]) => `${test}: <strong>${result}</strong>`).join("<br>")}</p>
+                        </div>
+                        <div class="mt-2">
+                            <p class="font-semibold text-gray-700 text-sm">Record Highlight:</p>
+                            <p class="text-sm leaderboard-highlight inline-block p-1 rounded">🏅 ${user.recordHighlight}</p>
+                        </div>
+                    `;
+                    cardsContainer.appendChild(card);
+                });
+            }
+
+            function applyMainLeaderboardFilters() {
+                const searchValue = document.getElementById("leaderboard-search")?.value.toLowerCase() || "";
+                const filterValue = document.getElementById("leaderboard-filter")?.value || "all";
+                let filteredData = mainLeaderboardData.filter(user => {
+                    const matchesSearch = user.name.toLowerCase().includes(searchValue) || user.address.toLowerCase().includes(searchValue) || user.state.toLowerCase().includes(searchValue) || Object.keys(user.tests).some(test => test.toLowerCase().includes(searchValue));
+                    let matchesFilter = true;
+                    if (filterValue === "verified") matchesFilter = user.verified;
+                    if (filterValue === "not-verified") matchesFilter = !user.verified;
+                    if (filterValue !== "all" && filterValue !== "verified" && filterValue !== "not-verified") {
+                        matchesFilter = user.state === filterValue;
+                    }
+                    return matchesSearch && matchesFilter;
+                });
+                renderMainLeaderboard(filteredData);
+            }
+
+            renderMainLeaderboard(mainLeaderboardData);
+            
+            const leaderboardSearch = document.getElementById("leaderboard-search");
+            if(leaderboardSearch) leaderboardSearch.addEventListener("input", applyMainLeaderboardFilters);
+            
+            const leaderboardFilter = document.getElementById("leaderboard-filter");
+            if(leaderboardFilter) leaderboardFilter.addEventListener("change", applyMainLeaderboardFilters);
+            
+            // New profile modal logic
+            const dummyProfileData = {
+                name: "Virat Kohli",
+                age: 35,
+                gender: "Male",
+                height: 175, // in cm
+                weight: 75, // in kg
+                level: "Pro Athlete"
+            };
+
+            function calculateBMI(height, weight) {
+                const heightInMeters = height / 100;
+                return (weight / (heightInMeters * heightInMeters)).toFixed(1);
+            }
+
+            function updateProfileModal() {
+                profileName.textContent = dummyProfileData.name;
+                profileAge.textContent = dummyProfileData.age;
+                profileGender.textContent = dummyProfileData.gender;
+                profileHeight.textContent = `${dummyProfileData.height} cm`;
+                profileWeight.textContent = `${dummyProfileData.weight} kg`;
+                profileBMI.textContent = calculateBMI(dummyProfileData.height, dummyProfileData.weight);
+                profileLevel.textContent = dummyProfileData.level;
+            }
+
+            // Bind profile button clicks to open the modal
+            document.getElementById('profile-menu-button-app').addEventListener('click', updateProfileModal);
+            
+            const profileMenuButton = document.getElementById('profile-menu-button');
+            if (profileMenuButton) {
+                profileMenuButton.addEventListener('click', updateProfileModal);
+            }
+
+            logoutBtn.addEventListener('click', () => {
+                hideModal(profileModal);
+                showModal(loginModal); // Simulates logging out and going to login
+            });
+        }
+
+        // New functions for event and sport details
+        function openEventDetailsModal(eventKey) {
+            currentMajorEvent = eventKey; // Store the current event
+            const eventData = majorEventsData[eventKey];
+            eventDetailsTitle.textContent = eventData.name;
+            
+            // Populate description, level, and facts
+            document.getElementById('event-description-text').textContent = eventData.description;
+            document.getElementById('event-level-badge').innerHTML = `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-blue-100 text-blue-800">${eventData.level}</span>`;
+            const factsList = document.getElementById('event-facts-list');
+            factsList.innerHTML = '';
+            eventData.facts.forEach(fact => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start';
+                li.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500 mr-2 mt-1 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span>${fact}</span>`;
+                factsList.appendChild(li);
+            });
+
+            sportsGrid.innerHTML = ''; // Clear previous content
+            Object.keys(eventData.sports).forEach(sportKey => {
+                const sport = eventData.sports[sportKey];
+                const sportCard = document.createElement('div');
+                sportCard.className = 'test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer h-full';
+                sportCard.dataset.sportKey = sportKey;
+                sportCard.innerHTML = `
+                    <h3 class="font-semibold text-xl text-gray-900 mb-2">${sport.name}</h3>
+                    <p class="text-sm text-gray-500 flex-grow">${sport.description}</p>
+                `;
+                sportCard.addEventListener('click', () => {
+                    openSportDetailsModal(eventKey, sportKey);
+                });
+                sportsGrid.appendChild(sportCard);
+            });
+            showModal(eventDetailsModal);
+        }
+
+        function openSportDetailsModal(eventKey, sportKey) {
+            const sportData = majorEventsData[eventKey].sports[sportKey];
+            sportDetailsTitle.textContent = sportData.name;
+            sportDetailsDescription.textContent = sportData.description;
+
+            // Populate parameters
+            sportParametersList.innerHTML = sportData.parameters.map(param => `
+                <li class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                    <span>${param}</span>
+                </li>
+            `).join('');
+
+            // Populate records
+            sportRecordsContainer.innerHTML = `
+                <h4 class="text-md font-semibold text-gray-700 mb-2">🏆 Top Tier Records</h4>
+                ${sportData.records.top.map(record => `
+                    <div class="bg-white p-4 rounded-lg shadow mb-3">
+                        <p class="font-bold text-orange-600">${record.benchmark}</p>
+                        <p class="font-semibold text-gray-800 text-sm">Target: ${record.athlete}</p>
+                        <p class="text-sm text-gray-600 mt-1">${record.details}</p>
+                    </div>
+                `).join('')}
+
+                <h4 class="text-md font-semibold text-gray-700 mt-6 mb-2">📈 Average National Benchmarks</h4>
+                ${sportData.records.average.map(record => `
+                    <div class="bg-white p-4 rounded-lg shadow mb-3">
+                        <p class="font-bold text-blue-600">${record.benchmark}</p>
+                        <p class="font-semibold text-gray-800 text-sm">Target: ${record.athlete}</p>
+                        <p class="text-sm text-gray-600 mt-1">${record.details}</p>
+                    </div>
+                `).join('')}
+            `;
+            
+            hideModal(eventDetailsModal);
+            showModal(sportDetailsModal);
+        }
+
+        closeEventDetailsModalBtn.addEventListener('click', () => hideModal(eventDetailsModal));
+        closeSportDetailsModalBtn.addEventListener('click', () => hideModal(sportDetailsModal));
+        backToEventDetailsBtn.addEventListener('click', () => {
+            hideModal(sportDetailsModal);
+            if (currentMajorEvent) {
+                openEventDetailsModal(currentMajorEvent);
+            }
+        });
+
+    </script>
+</body>
+</html>
+
+
