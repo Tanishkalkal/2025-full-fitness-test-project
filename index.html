@@ -3361,6 +3361,88 @@ setTimeout(() => {
     }
 }, 500);
 </script>
+
+// i adding tanish code 
+<script>
+
+// Function to toggle the chat window
+// *** THIS IS THE MODIFIED FUNCTION ***
+// It now sends a request to your Python backend.
+async function getBotResponse(userMessage) {
+    // Add a typing indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.className = 'bot-message self-start p-3 rounded-2xl typing-indicator';
+    chatMessages.appendChild(typingIndicator);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+        const response = await fetch('http://127.0.0.1:5000/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt: userMessage }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const botReply = data.response;
+        
+        // Remove the typing indicator before adding the real response
+        if (chatMessages.contains(typingIndicator)) {
+            chatMessages.removeChild(typingIndicator);
+        }
+        addMessage('bot', botReply);
+
+    } catch (error) {
+        console.error("Could not fetch response:", error);
+        // Remove the typing indicator and show an error message
+        if (chatMessages.contains(typingIndicator)) {
+            chatMessages.removeChild(typingIndicator);
+        }
+        addMessage('bot', 'Sorry, I am having trouble connecting to the server. Please make sure the backend is running.');
+    }
+}
+
+// Function to handle sending a message
+function sendMessage() {
+    const message = chatInput.value.trim();
+    if (message) {
+        addMessage('user', message);
+        getBotResponse(message); // This now calls the new async function
+        chatInput.value = '';
+    }
+}
+
+if(chatSendBtn) {
+    chatSendBtn.addEventListener('click', sendMessage);
+}
+
+if(chatInput) {
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+}
+
+// Initial greeting from the bot
+setTimeout(() => {
+    if(chatContainer && chatContainer.classList.contains('active')){
+         addMessage('bot', 'Hello! I am connected to the AI. How can I help you today?');
+    }
+}, 500);
+</script>
+
+
+
+
+
+
+</script>
 </body>
 </html>
 
