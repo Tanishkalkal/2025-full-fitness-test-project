@@ -1621,155 +1621,155 @@
             },
         };
 
-        const majorEventsData = {
-            olympics: {
-                name: "Paris Olympics 2024",
-                date: "July 26 - August 11, 2024",
-                description: "The premier international multi-sport event, showcasing the world's best athletes in a celebration of sport and unity. It is the pinnacle of athletic achievement.",
-                imageUrl: "https://images.unsplash.com/photo-1518600155075-f5b2ac30a086?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                level: "Global Pinnacle",
-                facts: [
-                    "The first modern Olympics were held in Athens, Greece, in 1896.",
-                    "The five rings represent the five inhabited continents of the world.",
-                    "India first participated in the Olympics in 1900."
-                ],
-                sports: {
-                    boxing: {
-                        name: "Boxing",
-                        description: "A combat sport where two opponents test their strength, speed, reflexes, and endurance by throwing punches.",
-                        parameters: ["Punch Speed (m/s)", "Reaction Time (ms)", "Max Punch Force (N)", "Footwork Agility", "Stamina (VO2 Max)", "Defensive Slips/Min", "Jab Accuracy (%)"],
-                        records: {
-                            top: [
-                                { benchmark: "Punch Speed > 10 m/s", athlete: "Olympic Champion Level", details: "Elite boxers generate incredible speed, often faster than the blink of an eye." },
-                                { benchmark: "Reaction Time < 100 ms", athlete: "World Record Holder", details: "The ability to react instantly to an opponent's move is critical at the highest level." }
-                            ],
-                            average: [
-                                { benchmark: "Punch Speed: 6-8 m/s", athlete: "National Level Competitor", details: "A solid benchmark for athletes competing at the national championships." },
-                                { benchmark: "Jab Accuracy > 60%", athlete: "State Level Medalist", details: "Consistency in landing jabs is a key indicator of a skilled boxer." }
-                            ]
-                        }
-                    },
-                    archery: {
-                        name: "Archery",
-                        description: "The art, sport, and skill of using a bow to shoot arrows, requiring immense precision and mental focus.",
-                        parameters: ["Arrow Grouping Accuracy (cm)", "Heart Rate Control (bpm)", "Aim Stability", "Draw Weight (lbs)", "Wind Reading Accuracy", "Shot Execution Time (s)"],
-                        records: {
-                             top: [
-                                { benchmark: "Perfect Score (900/900)", athlete: "World Record Holder", details: "Achieving a perfect score in a 90-arrow round is the pinnacle of archery precision." },
-                                { benchmark: "Heart Rate < 60 bpm under pressure", athlete: "Olympic Medalist", details: "Maintaining calm and control is as crucial as physical skill." }
-                            ],
-                            average: [
-                                { benchmark: "Score > 850/900", athlete: "National Team Selection", details: "Consistently scoring above 850 is often required for national team consideration." },
-                                { benchmark: "Arrow Grouping < 5cm at 70m", athlete: "Junior National Champion", details: "Tight arrow grouping is a fundamental skill for competitive archers." }
-                            ]
-                        }
-                    },
-                    athletics: {
-                        name: "Athletics (Javelin)",
-                        description: "A collection of sporting events that involve competitive running, jumping, throwing, and walking. Focus on Javelin.",
-                        parameters: ["Javelin Throw Distance (m)", "Run-up Speed (m/s)", "Release Angle (degrees)", "Core Strength (Med Ball Throw)", "Flexibility (Shoulder Range)"],
-                        records: {
-                            top: [
-                                { benchmark: "Javelin Throw > 90m", athlete: "World Champion Level", details: "Only a handful of athletes have ever surpassed the 90-meter mark." },
-                                { benchmark: "Run-up speed > 6 m/s", athlete: "Neeraj Chopra", details: "Generating high speed during the run-up is crucial for a powerful throw." }
-                            ],
-                            average: [
-                                { benchmark: "Javelin Throw > 75m", athlete: "National Record Holder", details: "A throw over 75 meters is highly competitive at the national level in India." },
-                                { benchmark: "Release Angle: 33-37 degrees", athlete: "University Level Champion", details: "Mastering the optimal release angle is key to maximizing distance." }
-                            ]
-                        }
-                    }
+    const majorEventsData = {
+    olympics: {
+        name: "Paris Olympics 2024",
+        date: "July 26 - August 11, 2024",
+        description: "The premier international multi-sport event, showcasing the world's best athletes in a celebration of sport and unity. It is the pinnacle of athletic achievement.",
+        imageUrl: "paris.jpg",
+        level: "Global Pinnacle",
+        facts: [
+            "The first modern Olympics were held in Athens, Greece, in 1896.",
+            "The five rings represent the five inhabited continents of the world.",
+            "India first participated in the Olympics in 1900."
+        ],
+        sports: {
+            boxing: {
+                name: "Boxing",
+                description: "A combat sport where two opponents test their strength, speed, reflexes, and endurance by throwing punches.",
+                parameters: ["Punch Speed (m/s)", "Reaction Time (ms)", "Max Punch Force (N)", "Footwork Agility", "Stamina (VO2 Max)", "Defensive Slips/Min", "Jab Accuracy (%)"],
+                records: {
+                    top: [
+                        { benchmark: "Punch Speed > 10 m/s", athlete: "Olympic Champion Level", details: "Elite boxers generate incredible speed, often faster than the blink of an eye." },
+                        { benchmark: "Reaction Time < 100 ms", athlete: "World Record Holder", details: "The ability to react instantly to an opponent's move is critical at the highest level." }
+                    ],
+                    average: [
+                        { benchmark: "Punch Speed: 6-8 m/s", athlete: "National Level Competitor", details: "A solid benchmark for athletes competing at the national championships." },
+                        { benchmark: "Jab Accuracy > 60%", athlete: "State Level Medalist", details: "Consistency in landing jabs is a key indicator of a skilled boxer." }
+                    ]
                 }
             },
-            commonwealth: {
-                name: "Commonwealth Games 2026",
-                date: "March 17-29, 2026",
-                description: "A multi-sport event among athletes from the Commonwealth of Nations, often referred to as the 'Friendly Games' for its spirit of camaraderie.",
-                imageUrl: "https://images.unsplash.com/photo-1627993081489-f53835081014?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                level: "International",
-                facts: [
-                    "It is an international multi-sport event involving athletes from the Commonwealth of Nations.",
-                    "Only six teams have attended every Commonwealth Games since its inception in 1930.",
-                    "India hosted the games in 2010 in Delhi, a landmark event for the country."
-                ],
-                sports: {
-                     weightlifting: {
-                        name: "Weightlifting",
-                        description: "An athletic discipline in which the athlete attempts a single maximum-weight lift of a barbell loaded with weight plates.",
-                        parameters: ["Snatch Max (kg)", "Clean & Jerk Max (kg)", "Bodyweight to Lift Ratio", "Grip Strength (kg)", "Leg Power (Vertical Jump)"],
-                        records: {
-                            top: [
-                                { benchmark: "Total Lift > 2.5x Bodyweight", athlete: "Mirabai Chanu", details: "Lifting more than double one's bodyweight is a sign of an elite competitor." },
-                                { benchmark: "Clean & Jerk > 140kg", athlete: "World Record Holder (Category)", details: "This level of strength is seen only at the highest international competitions." }
-                           ],
-                            average: [
-                                { benchmark: "Total Lift > 2x Bodyweight", athlete: "National Champion", details: "A common benchmark for medal winners at national events." },
-                                { benchmark: "Snatch: 90-100kg", athlete: "State Level Gold Medalist", details: "Mastery of the snatch technique at this weight is crucial for progression." }
-                            ]
-                        }
-                    },
-                     wrestling: {
-                        name: "Wrestling",
-                        description: "A combat sport involving grappling-type techniques such as clinch fighting, throws and takedowns, joint locks, and pins.",
-                        parameters: ["Takedown Success Rate (%)", "Defensive Score", "Stamina Index (Lactate Threshold)", "Grip Endurance (s)", "Reaction to Takedown (ms)"],
-                        records: {
-                            top: [
-                                { benchmark: "Takedown Rate > 80%", athlete: "Olympic Champion Level", details: "Dominant wrestlers consistently succeed in their takedown attempts." },
-                                { benchmark: "0 points conceded in a tournament", athlete: "Bajrang Punia (at times)", details: "A perfect defensive record is a rare and incredible feat." }
-                            ],
-                            average: [
-                                { benchmark: "Takedown Rate > 50%", athlete: "National Level Medalist", details: "Securing more than half of takedown attempts is a strong indicator of skill." },
-                                { benchmark: "Win by technical superiority", athlete: "Junior National Competitor", details: "Demonstrates a significant skill gap against opponents." }
-                            ]
-                        }
-                    }
+            archery: {
+                name: "Archery",
+                description: "The art, sport, and skill of using a bow to shoot arrows, requiring immense precision and mental focus.",
+                parameters: ["Arrow Grouping Accuracy (cm)", "Heart Rate Control (bpm)", "Aim Stability", "Draw Weight (lbs)", "Wind Reading Accuracy", "Shot Execution Time (s)"],
+                records: {
+                    top: [
+                        { benchmark: "Perfect Score (900/900)", athlete: "World Record Holder", details: "Achieving a perfect score in a 90-arrow round is the pinnacle of archery precision." },
+                        { benchmark: "Heart Rate < 60 bpm under pressure", athlete: "Olympic Medalist", details: "Maintaining calm and control is as crucial as physical skill." }
+                    ],
+                    average: [
+                        { benchmark: "Score > 850/900", athlete: "National Team Selection", details: "Consistently scoring above 850 is often required for national team consideration." },
+                        { benchmark: "Arrow Grouping < 5cm at 70m", athlete: "Junior National Champion", details: "Tight arrow grouping is a fundamental skill for competitive archers." }
+                    ]
                 }
             },
-             khelo_india: {
-                name: "Khelo India Youth Games",
-                date: "Annually in Winter",
-                description: "A national level multi-disciplinary grassroots games in India, introduced to revive the sports culture at the ground level for under-17 and under-21 athletes.",
-                imageUrl: "https://images.unsplash.com/photo-1579952778643-9828236c34eb?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                level: "National - Grassroots",
-                facts: [
-                    "Aimed at identifying and nurturing young sporting talent across India.",
-                    "Top-performing athletes receive annual scholarships for training and development.",
-                    "Promotes a wide range of traditional Indian sports alongside modern disciplines."
-                ],
-                sports: {
-                    swimming: {
-                        name: "Swimming",
-                        description: "Competitive swimming involves racing through water using various strokes.",
-                        parameters: ["50m Freestyle Time (s)", "Turn Efficiency (%)", "Start Reaction Time (ms)", "Stroke Rate (strokes/min)", "Underwater Dolphin Kicks"],
-                        records: {
-                            top: [
-                                { benchmark: "50m Freestyle < 22s", athlete: "World Record Pace", details: "Breaking the 22-second barrier is a mark of a world-class sprinter." },
-                                { benchmark: "Start Reaction < 0.6s", athlete: "Olympic Finalist", details: "An explosive start can make a significant difference in short races." }
-                            ],
-                            average: [
-                                { benchmark: "50m Freestyle < 25s", athlete: "National Record Holder", details: "This is a highly competitive time at the Indian national level." },
-                                { benchmark: "Turn Efficiency > 90%", athlete: "State Champion", details: "Minimizing time loss during turns is crucial for competitive swimmers." }
-                            ]
-                        }
-                    },
-                    kabaddi: {
-                        name: "Kabaddi",
-                        description: "A contact team sport that requires both skill and power, combining elements of wrestling and rugby.",
-                        parameters: ["Successful Raid Points per match", "Tackle Success Rate (%)", "Time on Mat (min)", "Avg. Raid Time (s)", "Super Raids"],
-                        records: {
-                            top: [
-                                { benchmark: "Avg. 10+ Raid Points/Match", athlete: "Pardeep Narwal", details: "Consistently scoring high raid points is the mark of a star raider." },
-                                { benchmark: "Tackle Success Rate > 60%", athlete: "Pro Kabaddi Best Defender", details: "Elite defenders have a high success rate in stopping raiders." }
-                            ],
-                            average: [
-                                { benchmark: "Avg. 5-7 Raid Points/Match", athlete: "National Level Raider", details: "A solid contribution that can win matches for the team." },
-                                { benchmark: "Tackle Success Rate > 40%", athlete: "State Level Defender", details: "A reliable defender who can contribute crucial tackle points." }
-                            ]
-                        }
-                    }
+            athletics: {
+                name: "Athletics (Javelin)",
+                description: "A collection of sporting events that involve competitive running, jumping, throwing, and walking. Focus on Javelin.",
+                parameters: ["Javelin Throw Distance (m)", "Run-up Speed (m/s)", "Release Angle (degrees)", "Core Strength (Med Ball Throw)", "Flexibility (Shoulder Range)"],
+                records: {
+                    top: [
+                        { benchmark: "Javelin Throw > 90m", athlete: "World Champion Level", details: "Only a handful of athletes have ever surpassed the 90-meter mark." },
+                        { benchmark: "Run-up speed > 6 m/s", athlete: "Neeraj Chopra", details: "Generating high speed during the run-up is crucial for a powerful throw." }
+                    ],
+                    average: [
+                        { benchmark: "Javelin Throw > 75m", athlete: "National Record Holder", details: "A throw over 75 meters is highly competitive at the national level in India." },
+                        { benchmark: "Release Angle: 33-37 degrees", athlete: "University Level Champion", details: "Mastering the optimal release angle is key to maximizing distance." }
+                    ]
                 }
             }
-        };
+        }
+    },
+    commonwealth: {
+        name: "Commonwealth Games 2026",
+        date: "March 17-29, 2026",
+        description: "A multi-sport event among athletes from the Commonwealth of Nations, often referred to as the 'Friendly Games' for its spirit of camaraderie.",
+        imageUrl: "commonwealth.png",
+        level: "International",
+        facts: [
+            "It is an international multi-sport event involving athletes from the Commonwealth of Nations.",
+            "Only six teams have attended every Commonwealth Games since its inception in 1930.",
+            "India hosted the games in 2010 in Delhi, a landmark event for the country."
+        ],
+        sports: {
+            weightlifting: {
+                name: "Weightlifting",
+                description: "An athletic discipline in which the athlete attempts a single maximum-weight lift of a barbell loaded with weight plates.",
+                parameters: ["Snatch Max (kg)", "Clean & Jerk Max (kg)", "Bodyweight to Lift Ratio", "Grip Strength (kg)", "Leg Power (Vertical Jump)"],
+                records: {
+                    top: [
+                        { benchmark: "Total Lift > 2.5x Bodyweight", athlete: "Mirabai Chanu", details: "Lifting more than double one's bodyweight is a sign of an elite competitor." },
+                        { benchmark: "Clean & Jerk > 140kg", athlete: "World Record Holder (Category)", details: "This level of strength is seen only at the highest international competitions." }
+                    ],
+                    average: [
+                        { benchmark: "Total Lift > 2x Bodyweight", athlete: "National Champion", details: "A common benchmark for medal winners at national events." },
+                        { benchmark: "Snatch: 90-100kg", athlete: "State Level Gold Medalist", details: "Mastery of the snatch technique at this weight is crucial for progression." }
+                    ]
+                }
+            },
+            wrestling: {
+                name: "Wrestling",
+                description: "A combat sport involving grappling-type techniques such as clinch fighting, throws and takedowns, joint locks, and pins.",
+                parameters: ["Takedown Success Rate (%)", "Defensive Score", "Stamina Index (Lactate Threshold)", "Grip Endurance (s)", "Reaction to Takedown (ms)"],
+                records: {
+                    top: [
+                        { benchmark: "Takedown Rate > 80%", athlete: "Olympic Champion Level", details: "Dominant wrestlers consistently succeed in their takedown attempts." },
+                        { benchmark: "0 points conceded in a tournament", athlete: "Bajrang Punia (at times)", details: "A perfect defensive record is a rare and incredible feat." }
+                    ],
+                    average: [
+                        { benchmark: "Takedown Rate > 50%", athlete: "National Level Medalist", details: "Securing more than half of takedown attempts is a strong indicator of skill." },
+                        { benchmark: "Win by technical superiority", athlete: "Junior National Competitor", details: "Demonstrates a significant skill gap against opponents." }
+                    ]
+                }
+            }
+        }
+    },
+    khelo_india: {
+        name: "Khelo India Youth Games",
+        date: "Annually in Winter",
+        description: "A national level multi-disciplinary grassroots games in India, introduced to revive the sports culture at the ground level for under-17 and under-21 athletes.",
+        imageUrl: "khelo.webp",
+        level: "National - Grassroots",
+        facts: [
+            "Aimed at identifying and nurturing young sporting talent across India.",
+            "Top-performing athletes receive annual scholarships for training and development.",
+            "Promotes a wide range of traditional Indian sports alongside modern disciplines."
+        ],
+        sports: {
+            swimming: {
+                name: "Swimming",
+                description: "Competitive swimming involves racing through water using various strokes.",
+                parameters: ["50m Freestyle Time (s)", "Turn Efficiency (%)", "Start Reaction Time (ms)", "Stroke Rate (strokes/min)", "Underwater Dolphin Kicks"],
+                records: {
+                    top: [
+                        { benchmark: "50m Freestyle < 22s", athlete: "World Record Pace", details: "Breaking the 22-second barrier is a mark of a world-class sprinter." },
+                        { benchmark: "Start Reaction < 0.6s", athlete: "Olympic Finalist", details: "An explosive start can make a significant difference in short races." }
+                    ],
+                    average: [
+                        { benchmark: "50m Freestyle < 25s", athlete: "National Record Holder", details: "This is a highly competitive time at the Indian national level." },
+                        { benchmark: "Turn Efficiency > 90%", athlete: "State Champion", details: "Minimizing time loss during turns is crucial for competitive swimmers." }
+                    ]
+                }
+            },
+            kabaddi: {
+                name: "Kabaddi",
+                description: "A contact team sport that requires both skill and power, combining elements of wrestling and rugby.",
+                parameters: ["Successful Raid Points per match", "Tackle Success Rate (%)", "Time on Mat (min)", "Avg. Raid Time (s)", "Super Raids"],
+                records: {
+                    top: [
+                        { benchmark: "Avg. 10+ Raid Points/Match", athlete: "Pardeep Narwal", details: "Consistently scoring high raid points is the mark of a star raider." },
+                        { benchmark: "Tackle Success Rate > 60%", athlete: "Pro Kabaddi Best Defender", details: "Elite defenders have a high success rate in stopping raiders." }
+                    ],
+                    average: [
+                        { benchmark: "Avg. 5-7 Raid Points/Match", athlete: "National Level Raider", details: "A solid contribution that can win matches for the team." },
+                        { benchmark: "Tackle Success Rate > 40%", athlete: "State Level Defender", details: "A reliable defender who can contribute crucial tackle points." }
+                    ]
+                }
+            }
+        }
+    }
+};
 
         let currentMajorEvent = null; // To keep track of the currently viewed major event
 
@@ -2217,36 +2217,34 @@
             const majorEventKeys = Object.keys(majorEventsData);
             let currentSlide = 0;
 
-            const showSlide = () => {
-                const eventKey = majorEventKeys[currentSlide];
-                const slideData = majorEventsData[eventKey];
-                const slideElement = document.createElement("div");
-                slideElement.className = "absolute top-0 left-0 w-full h-full bg-cover bg-center fade-in flex flex-col items-center justify-end text-center p-8";
-                slideElement.style.backgroundImage = `url('${slideData.imageUrl}')`;
-                
-                slideElement.innerHTML = `
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                    <div class="relative z-10 text-white space-y-3">
-                        <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold drop-shadow-lg">${slideData.name}</h2>
-                        <p class="text-lg font-medium">${slideData.date}</p>
-                        <p class="text-md max-w-2xl mx-auto">${slideData.description}</p>
-                        <button class="mt-4 bg-orange-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-orange-700 transition duration-300 view-event-details-btn" data-event-key="${eventKey}">
-                            View Details
-                        </button>
-                    </div>`;
+       const showSlide = () => {
+    const eventKey = majorEventKeys[currentSlide];
+    const slideData = majorEventsData[eventKey];
+    const slideElement = document.createElement("div");
+    slideElement.className = "absolute top-0 left-0 w-full h-full bg-cover bg-center fade-in flex flex-col items-center justify-end text-center p-8 cursor-pointer";
+    slideElement.style.backgroundImage = `url('${slideData.imageUrl}')`;
+    slideElement.innerHTML = `
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+        <div class="relative z-10 text-white space-y-3">
+            <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold drop-shadow-lg">${slideData.name}</h2>
+            <p class="text-lg font-medium drop-shadow-lg">${slideData.date}</p>
+            <p class="text-md max-w-2xl mx-auto drop-shadow-lg">${slideData.description}</p>
+            <button class="mt-4 bg-orange-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-orange-700 transition duration-300 view-event-details-btn" data-event-key="${eventKey}">
+                View Details
+            </button>
+        </div>`;
 
-                while (carouselContainer.firstChild) {
-                    carouselContainer.firstChild.remove();
-                }
-                carouselContainer.appendChild(slideElement);
+    while (carouselContainer.firstChild) {
+        carouselContainer.firstChild.remove();
+    }
+    carouselContainer.appendChild(slideElement);
 
-                // Add event listener to the new button
-                slideElement.querySelector('.view-event-details-btn').addEventListener('click', (e) => {
-                    const key = e.target.dataset.eventKey;
-                    openEventDetailsModal(key);
-                });
-            };
-
+    // Add event listener to the new button
+    slideElement.querySelector('.view-event-details-btn').addEventListener('click', (e) => {
+        const key = e.target.dataset.eventKey;
+        openEventDetailsModal(key);
+    });
+};
             const nextSlide = () => {
                 currentSlide = (currentSlide + 1) % majorEventKeys.length;
                 showSlide();
