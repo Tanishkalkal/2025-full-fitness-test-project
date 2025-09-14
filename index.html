@@ -1,3 +1,4 @@
+<!-- conflict resolution -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -314,6 +315,14 @@
     scrollbar-width: none;  /* Firefox */
 }
 
+/* --- Video Recording Styles --- */
+.recording-indicator {
+    animation: blink 1.5s infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
 
 
 
@@ -924,111 +933,49 @@
             </button>
             <h2 id="test-title" class="text-2xl font-bold text-gray-900 mb-6 text-center">Test Title</h2>
 
-            <!-- Tabs Navigation -->
-            <div class="flex border-b border-gray-200 mb-6">
-                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="evaluation">Evaluation</button>
-                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="history">Score History</button>
-                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="leaderboard">Leaderboard</button>
-            </div>
 
-            <!-- Tab Content Containers -->
-            <div id="evaluation-tab-content" class="tab-content space-y-6">
-                <h3 class="text-lg font-semibold text-gray-800">Submit Your Performance Video</h3>
 
-                <form id="uploadForm" class="space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label for="test-age" class="block text-sm font-medium text-gray-700">Age</label>
-                            <input type="number" id="test-age" name="test-age" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                            <p id="test-age-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
-                        </div>
-                        <div>
-                            <label for="test-height" class="block text-sm font-medium text-gray-700">Height (in cm)</label>
-                            <input type="number" id="test-height" name="test-height" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                            <p id="test-height-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
-                        </div>
-                        <div>
-                            <label for="test-weight" class="block text-sm font-medium text-gray-700">Weight (in kg)</label>
-                            <input type="number" id="test-weight" name="test-weight" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                            <p id="test-weight-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
-                        </div>
-                    </div>
-                     <div>
-                        <label for="test-gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                        <select id="test-gender" name="test-gender" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <p id="test-gender-error-message" class="text-red-500 text-sm mt-1 hidden">This field is required.</p>
-                    </div>
-                
-                    <!-- Video Guide Section -->
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
-                        <h4 class="text-lg font-bold mb-2">How to Record Your Test Video</h4>
-                        <p class="text-sm text-gray-600 mb-4">Watch this video for instructions on how to record your video for the best evaluation results.</p>
-                        <div class="aspect-w-16 aspect-h-9">
-                            <iframe class="w-full h-80 rounded-lg" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
+        <!-- Recording State: Stop Recording -->
+        <button id="stop-recording-btn" class="w-full sm:w-auto hidden bg-red-600 text-white font-bold py-3 px-8 rounded-full hover:bg-red-700 transition flex items-center justify-center space-x-2">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9 10h6v4H9z" /></svg>
+            <span>Stop Recording</span>
+        </button>
 
-                    <!-- Rules Section -->
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
-                        <h4 class="text-lg font-bold mb-2">Rules for Evaluation</h4>
-                        <ul class="list-disc list-inside text-sm text-gray-700">
-                            <li>Ensure the camera is stable and positioned to capture your full body.</li>
-                            <li>Do not wear loose clothing that may obstruct movement.</li>
-                            <li>Perform the test in a well-lit area with a clear background.</li>
-                            <li>The entire test, from start to finish, must be in a single, unedited video.</li>
-                            <li>Follow all specific test instructions as outlined in the video guide.</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Upload Button -->
-                    <div class="pt-4">
-                        <label for="videoFile" class="flex items-center justify-center w-full px-6 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 transition duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                            <span id="video-file-name" class="text-gray-600 font-medium">Click to upload your video</span>
-                            <input id="videoFile" name="videoFile" type="file" accept="video/*" class="hidden">
-                        </label>
-                         <p id="video-file-error-message" class="text-red-500 text-sm mt-1 hidden">Please select a video file.</p>
-                    </div>
+        <!-- Preview State: Upload & Re-record -->
+        <div id="preview-controls" class="hidden w-full sm:w-auto flex flex-col sm:flex-row items-center justify-center gap-4">
+             <button id="upload-btn" class="w-full sm:w-auto bg-orange-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-orange-700 transition button-shadow">
+                Upload for Analysis
+            </button>
+             <button id="rerecord-btn" class="w-full sm:w-auto bg-gray-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-gray-700 transition">
+                Re-record
+            </button>
+        </div>
+    </div>
 
-                    <!-- Submit Button and loading spinner -->
-                    <div class="flex items-center space-x-2">
-                        <button id="submit-evaluation-btn" type="submit" class="flex-1 bg-orange-600 text-white font-medium py-3 rounded-lg hover:bg-orange-700 transition duration-300">
-                            Submit for Evaluation
-                        </button>
-                        <div id="upload-loading" class="hidden spinner-border h-8 w-8" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                </form>
-                
-                 <!-- New section to display live evaluation results -->
-                 <div id="evaluation-results-section" class="hidden mt-6 p-6 bg-white rounded-xl shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Evaluation Results</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
-                        <div>
-                            <p class="font-semibold">Jump Height:</p>
-                            <p id="eval-jumpHeight" class="text-lg"></p>
-                        </div>
-                        <div>
-                            <p class="font-semibold">Cheat Probability:</p>
-                            <p id="eval-cheatProb" class="text-lg"></p>
-                        </div>
-                        <div>
-                            <p class="font-semibold">Benchmark:</p>
-                            <p id="eval-benchmark" class="text-lg"></p>
-                        </div>
-                        <div>
-                            <p class="font-semibold">Status:</p>
-                            <p id="eval-verified" class="text-lg"></p>
-                        </div>
-                    </div>
+    <!-- Analysis/Results Container -->
+    <div id="analysis-results-container" class="hidden mt-6 p-6 bg-white rounded-xl shadow-lg text-center">
+        <!-- Loading Spinner -->
+        <div id="analysis-loading" class="hidden flex flex-col items-center justify-center space-y-2">
+            <div class="spinner h-12 w-12"></div>
+            <p class="text-gray-600 font-medium">Analyzing your performance... Please wait.</p>
+        </div>
+        <!-- Results -->
+        <div id="analysis-results" class="hidden">
+             <h3 class="text-xl font-bold text-gray-900 mb-4">Evaluation Complete!</h3>
+             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <p class="font-semibold text-sm uppercase text-gray-500">Repetitions</p>
+                    <p id="result-reps" class="text-3xl font-bold text-orange-600"></p>
+                </div>
+                 <div class="bg-gray-100 p-4 rounded-lg">
+                    <p class="font-semibold text-sm uppercase text-gray-500">Fitness Level</p>
+                    <p id="result-level" class="text-3xl font-bold text-green-600"></p>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
 
             <div id="history-tab-content" class="tab-content hidden space-y-6">
                 <!-- Graph Section -->
@@ -2057,87 +2004,7 @@
 
         let lastEvaluationResults = null;
 
-        uploadForm.addEventListener("submit", async function(e) {
-            e.preventDefault();
-
-            // Validate form fields
-            const isAgeValid = validateField(testAgeInput, testAgeError);
-            const isHeightValid = validateField(testHeightInput, testHeightError);
-            const isWeightValid = validateField(testWeightInput, testWeightError);
-            const isGenderValid = validateField(testGenderInput, testGenderError);
-            const isVideoValid = validateFile(videoFileInput, videoFileError);
-            
-            if (!isAgeValid || !isHeightValid || !isWeightValid || !isGenderValid || !isVideoValid) {
-                return;
-            }
-
-            uploadLoading.classList.remove('hidden');
-            evaluationResultsSection.classList.add('hidden');
-            
-            const formData = new FormData();
-            formData.append("file", videoFileInput.files[0]);
-            formData.append("age", testAgeInput.value);
-            formData.append("gender", testGenderInput.value);
-
-            // --- IMPORTANT: Backend Server Connection Note ---
-            // The 'Failed to fetch' error often means the local server is not running
-            // or there is a CORS (Cross-Origin Resource Sharing) issue.
-            // 
-            // 1. Ensure your FastAPI server is running with `uvicorn main:app --reload`.
-            // 2. Add `CORSMiddleware` to your FastAPI app to allow requests from this page's origin.
-            //    Example:
-            //    from fastapi.middleware.cors import CORSMiddleware
-            //    app = FastAPI()
-            //    app.add_middleware(
-            //        CORSMiddleware,
-            //        allow_origins=["*"],  // Use a specific origin like "http://localhost:3000" in production
-            //        allow_credentials=True,
-            //        allow_methods=["*"],
-            //        allow_headers=["*"],
-            //    )
-            // ----------------------------------------------------
-
-            try {
-                const response = await fetch("http://127.0.0.1:8000/analyze", {
-                    method: "POST",
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                console.log(result);
-
-                // Store the result for the AI coach
-                lastEvaluationResults = {
-                    testName: testTitle.textContent,
-                    score: `${result.maxJumpHeight.toFixed(2)} cm`,
-                    jumpHeight: `${result.maxJumpHeight.toFixed(2)} cm`,
-                    cheatProbability: `${(result.cheatProbability * 100).toFixed(0)}%`,
-                    benchmark: result.benchmark ?? "N/A",
-                    status: result.verified ? "✅ Verified" : "❌ Not Verified",
-                    comments: result.comments ?? "No specific comments provided by the evaluator."
-                };
-
-                evaluationResultsSection.classList.remove("hidden");
-                evalJumpHeight.textContent = lastEvaluationResults.jumpHeight;
-                evalCheatProb.textContent = lastEvaluationResults.cheatProbability;
-                evalBenchmark.textContent = lastEvaluationResults.benchmark;
-                evalVerified.textContent = lastEvaluationResults.status;
-                showMessage("Video submitted successfully! Results are now available.", "success");
-
-            } catch (error) {
-                console.error("Error during analysis:", error);
-                // Handle error state with a custom message
-                evaluationResultsSection.classList.add("hidden");
-                showMessage(`An error occurred: Could not connect to the backend server. Please ensure the server is running and configured correctly.`, 'error');
-            } finally {
-                uploadLoading.classList.add('hidden');
-            }
-        });
-
+           
         function runAppPageScripts() {
             // Updated: Daily Streaks Logic with slider buttons
             function setupStreakSlider() {
@@ -2334,6 +2201,7 @@ function setupDateSelector() {
     updateActiveDateButton();
 }
 
+
 function updateActiveDateButton() {
     let isPresetDate = false;
     dateButtonsContainer.querySelectorAll('.date-selector-btn').forEach(btn => {
@@ -2510,29 +2378,173 @@ function getFriendlyDate(dateStr) {
 
 // Make sure this is called inside your main runAppPageScripts function
 initGoals();
+// --- Video Recording and Analysis Logic (FIXED & SELF-CONTAINED) ---
+
+// Define variables in a scope that functions below can access
+let mediaRecorder;
+let recordedChunks = [];
+let mediaStream;
+
+// This function safely stops all camera tracks.
+function stopCamera() {
+    if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+    }
+}
+
+// This function sets up the entire video recording UI and functionality
+function setupVideoRecorder() {
+    // Get all necessary elements from the DOM
+    const startRecordingBtn = document.getElementById('start-recording-btn');
+    const stopRecordingBtn = document.getElementById('stop-recording-btn');
+    const uploadBtn = document.getElementById('upload-btn');
+    const rerecordBtn = document.getElementById('rerecord-btn');
+    const previewControls = document.getElementById('preview-controls');
+    const cameraFeed = document.getElementById('camera-feed');
+    const videoPreview = document.getElementById('video-preview');
+    const recIndicator = document.getElementById('rec-indicator');
+    const analysisContainer = document.getElementById('analysis-results-container');
+    const analysisLoading = document.getElementById('analysis-loading');
+    const analysisResults = document.getElementById('analysis-results');
+    const resultReps = document.getElementById('result-reps');
+    const resultLevel = document.getElementById('result-level');
+
+    // Resets the UI to the initial 'ready to record' state
+    function resetRecorderState() {
+        startRecordingBtn.classList.remove('hidden');
+        stopRecordingBtn.classList.add('hidden');
+        previewControls.classList.add('hidden');
+        cameraFeed.classList.remove('hidden');
+        videoPreview.classList.add('hidden');
+        videoPreview.src = '';
+        videoPreview.srcObject = null;
+        recIndicator.classList.add('hidden');
+        analysisContainer.classList.add('hidden');
+        analysisResults.classList.add('hidden');
+        analysisLoading.classList.add('hidden');
+    }
+
+    // Asks for camera permission and sets up the MediaRecorder
+    async function setupCamera() {
+        resetRecorderState();
+        try {
+            mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            cameraFeed.srcObject = mediaStream;
+            
+            mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
+
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) recordedChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const videoURL = URL.createObjectURL(blob);
+                videoPreview.src = videoURL;
+
+                cameraFeed.classList.add('hidden');
+                stopRecordingBtn.classList.add('hidden');
+                recIndicator.classList.add('hidden');
+                videoPreview.classList.remove('hidden');
+                previewControls.classList.remove('hidden');
+            };
+
+        } catch (err) {
+            console.error("Error accessing camera:", err);
+            showMessage("Could not access camera. Please grant permission and ensure one is available.", "error");
+        }
+    }
+
+    // --- Attach Event Listeners to the Buttons ---
+    startRecordingBtn.addEventListener('click', () => {
+        recordedChunks = [];
+        mediaRecorder.start();
+        startRecordingBtn.classList.add('hidden');
+        stopRecordingBtn.classList.remove('hidden');
+        recIndicator.classList.remove('hidden');
+    });
+
+    stopRecordingBtn.addEventListener('click', () => {
+        if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
+        stopCamera();
+    });
+
+    rerecordBtn.addEventListener('click', () => {
+        setupCamera();
+    });
+
+    uploadBtn.addEventListener('click', () => {
+        analysisContainer.classList.remove('hidden');
+        analysisLoading.classList.remove('hidden');
+        analysisResults.classList.add('hidden');
+        previewControls.classList.add('hidden');
+
+        // This simulates your model evaluation
+        setTimeout(() => {
+            analysisLoading.classList.add('hidden');
+            const reps = Math.floor(Math.random() * 16) + 15; // Random number between 15 and 30
+            const level = reps > 25 ? 'Excellent' : reps > 20 ? 'Good' : 'Average';
+            resultReps.textContent = reps;
+            resultLevel.textContent = level;
+            analysisResults.classList.remove('hidden');
+        }, 3000); // Simulate a 3-second analysis
+    });
+
+    // This is the first thing that happens when the recorder is set up
+    setupCamera();
+}
+
+// This NEW function correctly handles opening the test modal AND starting the camera
+function handleTestCardClick(e) {
+    const testName = e.currentTarget.getAttribute("data-test-name");
+    testTitle.textContent = testName;
+    mainContent.classList.add("hidden");
+    animatedBackground.classList.add("hidden");
+    
+    showModal(testDetailModal);
+    setupVideoRecorder(); // This correctly sets up the video recorder every time a card is clicked
+
+    // Reset tabs to show the 'Evaluation' tab by default
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove("border-orange-600", "text-orange-600");
+        btn.classList.add("border-transparent", "text-gray-500");
+    });
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.add("hidden"));
+    
+    const evaluationTabButton = document.querySelector('.tab-btn[data-tab-name="evaluation"]');
+    const evaluationTabContent = document.getElementById("evaluation-tab-content");
+
+    if (evaluationTabButton && evaluationTabContent) {
+        evaluationTabButton.classList.add("border-orange-600", "text-orange-600");
+        evaluationTabContent.classList.remove("hidden");
+    }
+    
+    loadLeaderboard("country");
+}
+
+// Attach the new, correct event listener to all test cards
+document.querySelectorAll('.test-card').forEach(card => card.addEventListener("click", handleTestCardClick));
+
+// Correctly handle closing the modal to ensure the camera ALWAYS stops
+closeTestModal.addEventListener("click", () => {
+    hideModal(testDetailModal);
+    mainContent.classList.remove("hidden");
+    animatedBackground.classList.remove("hidden");
+    stopCamera(); // This is crucial
+});
+
+backFromTestDetailsBtn.addEventListener("click", () => {
+    hideModal(testDetailModal);
+    mainContent.classList.remove("hidden");
+    animatedBackground.classList.remove("hidden");
+    stopCamera(); // This is crucial
+});
 
 
+            
 
-
-            // General fitness tests listeners
-            document.querySelectorAll('.test-card').forEach(card => card.addEventListener("click", handleTestCardClick));
-
-            function handleTestCardClick(e) {
-                const testName = e.currentTarget.getAttribute("data-test-name");
-                testTitle.textContent = testName;
-                mainContent.classList.add("hidden");
-                animatedBackground.classList.add("hidden");
-                showModal(testDetailModal);
-                document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove("border-orange-600", "text-orange-600");
-                    btn.classList.add("border-transparent", "text-gray-500");
-                });
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.add("hidden"));
-                document.querySelector('.tab-btn[data-tab-name="evaluation"]').classList.add("border-orange-600", "text-orange-600");
-                document.getElementById("evaluation-tab-content").classList.remove("hidden");
-                loadLeaderboard("country");
-            }
-
+           
             // Game-specific tests modal logic
             gameTestIcons.forEach(icon => {
                 icon.addEventListener('click', (e) => {
