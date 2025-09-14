@@ -253,6 +253,13 @@
         animation: typing 1.5s infinite;
     }
 
+    /* --- Training Goals Styles --- */
+.goal-item.completed .goal-text {
+    text-decoration: line-through;
+    color: #9ca3af; /* text-gray-400 */
+}
+
+
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 overflow-x-hidden">
@@ -514,6 +521,24 @@
                      </button>
                  </div>
              </section>
+            
+             <!-- My Training Goals Section -->
+            <section id="training-goals">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">My Training Goals</h2>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <!-- Input for new goal -->
+                    <div class="flex items-center space-x-2 mb-4">
+                        <input type="text" id="goal-input" placeholder="e.g., Beat my 40m dash record" class="flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
+                        <button id="add-goal-btn" class="bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-700 active:scale-95 transition-transform duration-200 button-shadow">
+                            Add Goal
+                        </button>
+                    </div>
+                    <!-- List of goals -->
+                    <div id="goals-list-container" class="space-y-3">
+                        <!-- Goals will be dynamically inserted here -->
+                    </div>
+                </div>
+            </section>
 
             <!-- Fitness Assignment Test Section -->
             <section>
@@ -2150,6 +2175,86 @@
             showSlide();
             setInterval(nextSlide, 5000);
             setupStreakSlider(); // Initialize daily streaks slider
+            
+            // --- Training Goals Logic ---
+const goalInput = document.getElementById('goal-input');
+const addGoalBtn = document.getElementById('add-goal-btn');
+const goalsListContainer = document.getElementById('goals-list-container');
+
+// Load goals from localStorage when the app page runs
+function loadGoals() {
+    const goals = JSON.parse(localStorage.getItem('trainingGoals')) || [];
+    goalsListContainer.innerHTML = ''; // Clear the list first
+    goals.forEach(goal => createGoalElement(goal.text, goal.completed));
+}
+
+// Function to create and add a goal element to the DOM
+function createGoalElement(text, isCompleted = false) {
+    const goalItem = document.createElement('div');
+    goalItem.className = `goal-item flex items-center justify-between bg-gray-50 p-4 rounded-lg transition hover:bg-gray-100 ${isCompleted ? 'completed' : ''}`;
+
+    const goalText = document.createElement('span');
+    goalText.className = 'goal-text flex-1 cursor-pointer';
+    goalText.textContent = text;
+    goalText.addEventListener('click', () => {
+        goalItem.classList.toggle('completed');
+        updateGoalsInStorage();
+    });
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'text-red-500 hover:text-red-700 ml-4';
+    deleteBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+    `;
+    deleteBtn.addEventListener('click', () => {
+        goalsListContainer.removeChild(goalItem);
+        updateGoalsInStorage();
+    });
+
+    goalItem.appendChild(goalText);
+    goalItem.appendChild(deleteBtn);
+    goalsListContainer.appendChild(goalItem);
+}
+
+// Function to add a new goal
+function addGoal() {
+    const text = goalInput.value.trim();
+    if (text) {
+        createGoalElement(text);
+        updateGoalsInStorage();
+        goalInput.value = '';
+    }
+}
+
+// Function to save all current goals to localStorage
+function updateGoalsInStorage() {
+    const goals = [];
+    document.querySelectorAll('.goal-item').forEach(item => {
+        goals.push({
+            text: item.querySelector('.goal-text').textContent,
+            completed: item.classList.contains('completed')
+        });
+    });
+    localStorage.setItem('trainingGoals', JSON.stringify(goals));
+}
+
+
+if (addGoalBtn) {
+     addGoalBtn.addEventListener('click', addGoal);
+}
+if (goalInput) {
+    goalInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            addGoal();
+        }
+    });
+}
+
+
+// Make sure to call loadGoals() when the app page is initialized
+loadGoals();
 
             // General fitness tests listeners
             document.querySelectorAll('.test-card').forEach(card => card.addEventListener("click", handleTestCardClick));
