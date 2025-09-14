@@ -253,11 +253,68 @@
         animation: typing 1.5s infinite;
     }
 
-    /* --- Training Goals Styles --- */
+/* --- Training Goals Styles --- */
 .goal-item.completed .goal-text {
     text-decoration: line-through;
     color: #9ca3af; /* text-gray-400 */
 }
+
+/* Style for the checkbox */
+.goal-checkbox {
+    transform: scale(1.2);
+    accent-color: #f97316; /* orange-500 */
+}
+
+/* Styles for the view toggle buttons */
+.goal-toggle-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem; /* rounded-md */
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #4b5563; /* text-gray-600 */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.goal-toggle-btn.active {
+    background-color: #ffffff;
+    color: #ea580c; /* text-orange-600 */
+    font-weight: 600;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the new date selector buttons */
+.date-selector-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px; /* rounded-full */
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #4b5563; /* text-gray-600 */
+    background-color: #e5e7eb; /* bg-gray-200 */
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: center;
+}
+.date-selector-btn.active {
+    background-color: #ea580c; /* bg-orange-600 */
+    color: #ffffff; /* text-white */
+    font-weight: 600;
+    box-shadow: 0 4px 14px 0 rgba(234, 88, 12, 0.39);
+}
+/* Hide scrollbar for the date container */
+#date-buttons-container::-webkit-scrollbar {
+    display: none;
+}
+#date-buttons-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
 
 
     </style>
@@ -522,23 +579,44 @@
                  </div>
              </section>
             
-             <!-- My Training Goals Section -->
+                        <!-- My Training Goals Section -->
             <section id="training-goals">
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">My Training Goals</h2>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">My Training Goals</h2>
+                    <!-- View Toggle Buttons -->
+                    <div id="goals-view-toggle" class="mt-3 sm:mt-0 flex items-center bg-gray-200 rounded-lg p-1">
+                        <button class="goal-toggle-btn active" data-view="daily">Daily Goals</button>
+                        <button class="goal-toggle-btn" data-view="overall">Overall Goals</button>
+                    </div>
+                </div>
                 <div class="bg-white rounded-xl shadow-lg p-6">
+                    <!-- Horizontal Date Selector (for Daily Goals view) -->
+                    <div id="daily-goals-date-selector" class="mb-4">
+                        <div id="date-buttons-container" class="flex items-center space-x-2 overflow-x-auto pb-2">
+                            <!-- Date buttons will be populated by JS -->
+                        </div>
+                        <input type="date" id="goal-custom-date-input" class="w-full sm:w-auto px-4 py-2 mt-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition hidden">
+                    </div>
+
                     <!-- Input for new goal -->
-                    <div class="flex items-center space-x-2 mb-4">
-                        <input type="text" id="goal-input" placeholder="e.g., Beat my 40m dash record" class="flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
-                        <button id="add-goal-btn" class="bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-700 active:scale-95 transition-transform duration-200 button-shadow">
-                            Add Goal
+                    <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 mb-4">
+                        <input type="text" id="goal-input" placeholder="Enter a new goal..." class="flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
+                        <button id="add-goal-btn" class="w-full sm:w-auto bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-700 active:scale-95 transition-transform duration-200 button-shadow">
+                            Add
                         </button>
                     </div>
+                    <!-- Daily Reminder Area -->
+                    <div id="goals-reminder-container" class="mb-4"></div>
                     <!-- List of goals -->
                     <div id="goals-list-container" class="space-y-3">
                         <!-- Goals will be dynamically inserted here -->
                     </div>
+                    <!-- Clear Completed Button (Appears when there are completed tasks) -->
+                    <div id="clear-completed-container" class="text-right mt-4"></div>
                 </div>
             </section>
+
+
 
             <!-- Fitness Assignment Test Section -->
             <section>
@@ -2176,85 +2254,267 @@
             setInterval(nextSlide, 5000);
             setupStreakSlider(); // Initialize daily streaks slider
             
-            // --- Training Goals Logic ---
+                // --- Training Goals Logic (V3 - Date Selector UI) ---
 const goalInput = document.getElementById('goal-input');
+const goalCustomDateInput = document.getElementById('goal-custom-date-input');
 const addGoalBtn = document.getElementById('add-goal-btn');
 const goalsListContainer = document.getElementById('goals-list-container');
+const goalsReminderContainer = document.getElementById('goals-reminder-container');
+const goalsViewToggle = document.getElementById('goals-view-toggle');
+const clearCompletedContainer = document.getElementById('clear-completed-container');
+const dateButtonsContainer = document.getElementById('date-buttons-container');
+const dailyGoalsDateSelector = document.getElementById('daily-goals-date-selector');
 
-// Load goals from localStorage when the app page runs
-function loadGoals() {
-    const goals = JSON.parse(localStorage.getItem('trainingGoals')) || [];
-    goalsListContainer.innerHTML = ''; // Clear the list first
-    goals.forEach(goal => createGoalElement(goal.text, goal.completed));
-}
+let currentView = 'daily'; // 'daily' or 'overall'
+let selectedDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+let goalsData = { daily: [], overall: [] };
 
-// Function to create and add a goal element to the DOM
-function createGoalElement(text, isCompleted = false) {
-    const goalItem = document.createElement('div');
-    goalItem.className = `goal-item flex items-center justify-between bg-gray-50 p-4 rounded-lg transition hover:bg-gray-100 ${isCompleted ? 'completed' : ''}`;
+// Initialize the goals feature
+function initGoals() {
+    goalsData = JSON.parse(localStorage.getItem('trainingGoalsV3')) || { daily: [], overall: [] };
+    setupDateSelector();
 
-    const goalText = document.createElement('span');
-    goalText.className = 'goal-text flex-1 cursor-pointer';
-    goalText.textContent = text;
-    goalText.addEventListener('click', () => {
-        goalItem.classList.toggle('completed');
-        updateGoalsInStorage();
+    goalsViewToggle.addEventListener('click', (e) => {
+        if (e.target.matches('.goal-toggle-btn')) {
+            switchView(e.target.dataset.view);
+        }
     });
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'text-red-500 hover:text-red-700 ml-4';
-    deleteBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-        </svg>
-    `;
-    deleteBtn.addEventListener('click', () => {
-        goalsListContainer.removeChild(goalItem);
-        updateGoalsInStorage();
+    addGoalBtn.addEventListener('click', addGoal);
+    goalInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addGoal();
     });
 
-    goalItem.appendChild(goalText);
-    goalItem.appendChild(deleteBtn);
-    goalsListContainer.appendChild(goalItem);
+    switchView(currentView);
 }
 
-// Function to add a new goal
-function addGoal() {
-    const text = goalInput.value.trim();
-    if (text) {
-        createGoalElement(text);
-        updateGoalsInStorage();
-        goalInput.value = '';
+function setupDateSelector() {
+    dateButtonsContainer.innerHTML = '';
+    const today = new Date();
+
+    for (let i = 6; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        const dateString = date.toISOString().split('T')[0];
+
+        const button = document.createElement('button');
+        button.className = 'date-selector-btn';
+        button.dataset.date = dateString;
+        button.innerHTML = `
+            <div class="font-bold">${date.getDate()}</div>
+            <div class="text-xs">${date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+        `;
+        
+        button.addEventListener('click', () => {
+            selectedDate = dateString;
+            goalCustomDateInput.classList.add('hidden');
+            updateActiveDateButton();
+            renderGoals();
+        });
+        dateButtonsContainer.appendChild(button);
+    }
+    
+    // Add custom date button
+    const customButton = document.createElement('button');
+    customButton.className = 'date-selector-btn';
+    customButton.textContent = 'Other';
+    customButton.id = 'custom-date-btn';
+    customButton.addEventListener('click', () => {
+        goalCustomDateInput.classList.toggle('hidden');
+        if(!goalCustomDateInput.classList.contains('hidden')){
+            goalCustomDateInput.focus();
+        }
+    });
+    dateButtonsContainer.appendChild(customButton);
+
+    goalCustomDateInput.addEventListener('change', (e) => {
+        selectedDate = e.target.value;
+        updateActiveDateButton();
+        renderGoals();
+    });
+    
+    updateActiveDateButton();
+}
+
+function updateActiveDateButton() {
+    let isPresetDate = false;
+    dateButtonsContainer.querySelectorAll('.date-selector-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.date === selectedDate) {
+            btn.classList.add('active');
+            isPresetDate = true;
+        }
+    });
+    const customBtn = document.getElementById('custom-date-btn');
+    if(!isPresetDate){
+       customBtn.classList.add('active');
+    } else {
+       customBtn.classList.remove('active');
     }
 }
 
-// Function to save all current goals to localStorage
-function updateGoalsInStorage() {
-    const goals = [];
-    document.querySelectorAll('.goal-item').forEach(item => {
-        goals.push({
-            text: item.querySelector('.goal-text').textContent,
-            completed: item.classList.contains('completed')
+// Switch between 'daily' and 'overall' views
+function switchView(view) {
+    currentView = view;
+    goalsViewToggle.querySelectorAll('.goal-toggle-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.view === view) btn.classList.add('active');
+    });
+
+    dailyGoalsDateSelector.style.display = view === 'daily' ? 'block' : 'none';
+    goalInput.placeholder = view === 'daily' ? `Add a goal for ${getFriendlyDate(selectedDate)}...` : 'Enter an overall goal...';
+
+    renderGoals();
+}
+
+// Main render function
+function renderGoals() {
+    goalsListContainer.innerHTML = '';
+    if (currentView === 'daily') {
+        renderDailyGoals();
+        checkForOldTasks();
+    } else {
+        renderOverallGoals();
+        goalsReminderContainer.innerHTML = '';
+    }
+    renderClearCompletedButton();
+}
+
+function renderDailyGoals() {
+    const goalsForSelectedDate = goalsData.daily.filter(g => g.date === selectedDate);
+    
+    if (goalsForSelectedDate.length === 0) {
+        goalsListContainer.innerHTML = `<p class="text-gray-500 text-center">No goals for ${getFriendlyDate(selectedDate)}. Add one!</p>`;
+        return;
+    }
+
+    goalsForSelectedDate.forEach(goal => {
+        const goalElement = createGoalElement(goal);
+        goalsListContainer.appendChild(goalElement);
+    });
+}
+
+function renderOverallGoals() {
+    const overallGoals = goalsData.overall || [];
+     if (overallGoals.length === 0) {
+        goalsListContainer.innerHTML = `<p class="text-gray-500 text-center">No overall goals yet. Add one!</p>`;
+        return;
+    }
+    overallGoals.forEach(goal => {
+        const goalElement = createGoalElement(goal);
+        goalsListContainer.appendChild(goalElement);
+    });
+}
+
+// Creates a single goal DOM element
+function createGoalElement(goal) {
+    const { id, text, completed } = goal;
+    const goalItem = document.createElement('div');
+    goalItem.className = `goal-item flex items-center justify-between bg-gray-50 p-3 rounded-lg transition hover:bg-gray-100 ${completed ? 'completed' : ''}`;
+    const leftSide = document.createElement('div');
+    leftSide.className = 'flex items-center';
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = completed;
+    checkbox.className = 'goal-checkbox h-5 w-5 mr-4 flex-shrink-0';
+    checkbox.addEventListener('change', () => toggleGoalCompletion(id));
+    const goalText = document.createElement('span');
+    goalText.className = 'goal-text text-gray-800';
+    goalText.textContent = text;
+    leftSide.appendChild(checkbox);
+    leftSide.appendChild(goalText);
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'text-red-500 hover:text-red-700';
+    deleteBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>`;
+    deleteBtn.addEventListener('click', () => deleteGoal(id));
+    goalItem.appendChild(leftSide);
+    goalItem.appendChild(deleteBtn);
+    return goalItem;
+}
+
+// --- Data Manipulation Functions ---
+function addGoal() {
+    const text = goalInput.value.trim();
+    if (!text) return;
+    const newGoal = { id: Date.now(), text: text, completed: false };
+    if (currentView === 'daily') {
+        newGoal.date = selectedDate;
+        goalsData.daily.push(newGoal);
+    } else {
+        goalsData.overall.push(newGoal);
+    }
+    saveAndRerender();
+    goalInput.value = '';
+}
+
+function deleteGoal(id) {
+    if (currentView === 'daily') {
+        goalsData.daily = goalsData.daily.filter(g => g.id !== id);
+    } else {
+        goalsData.overall = goalsData.overall.filter(g => g.id !== id);
+    }
+    saveAndRerender();
+}
+
+function toggleGoalCompletion(id) {
+    const list = currentView === 'daily' ? goalsData.daily : goalsData.overall;
+    const goal = list.find(g => g.id === id);
+    if (goal) goal.completed = !goal.completed;
+    saveAndRerender();
+}
+
+function saveAndRerender() {
+    localStorage.setItem('trainingGoalsV3', JSON.stringify(goalsData));
+    renderGoals();
+}
+
+// --- Helper & UI Functions ---
+function renderClearCompletedButton() {
+    const list = currentView === 'daily' ? goalsData.daily.filter(g=>g.date === selectedDate) : goalsData.overall;
+    const completedCount = list.filter(g => g.completed).length;
+
+    if (completedCount > 0) {
+        clearCompletedContainer.innerHTML = `<button id="clear-completed-btn-dynamic" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition text-sm">Clear ${completedCount} Completed</button>`;
+        document.getElementById('clear-completed-btn-dynamic').addEventListener('click', () => {
+             if (currentView === 'daily') {
+                goalsData.daily = goalsData.daily.filter(g => !g.completed || g.date !== selectedDate);
+            } else {
+                goalsData.overall = goalsData.overall.filter(g => !g.completed);
+            }
+            saveAndRerender();
         });
-    });
-    localStorage.setItem('trainingGoals', JSON.stringify(goals));
+    } else {
+        clearCompletedContainer.innerHTML = '';
+    }
 }
 
-
-if (addGoalBtn) {
-     addGoalBtn.addEventListener('click', addGoal);
-}
-if (goalInput) {
-    goalInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            addGoal();
-        }
-    });
+function checkForOldTasks() {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const oldIncompleteTasks = goalsData.daily.filter(goal => !goal.completed && goal.date < todayStr);
+    if (oldIncompleteTasks.length > 0) {
+        goalsReminderContainer.innerHTML = `<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 rounded-md text-sm"><strong>Reminder:</strong> You have ${oldIncompleteTasks.length} incomplete goal(s) from previous days.</div>`;
+    } else {
+        goalsReminderContainer.innerHTML = '';
+    }
 }
 
+function getFriendlyDate(dateStr) {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const todayStr_ = today.toISOString().split('T')[0];
+    const yesterdayStr_ = yesterday.toISOString().split('T')[0];
+    if (todayStr_ === dateStr) return 'Today';
+    if (yesterdayStr_ === dateStr) return 'Yesterday';
+    const date = new Date(dateStr + 'T00:00:00'); // Ensure correct date parsing
+    return date.toLocaleDateString('en-GB', { weekday: 'long', day: '2-digit', month: 'short' });
+}
 
-// Make sure to call loadGoals() when the app page is initialized
-loadGoals();
+// Make sure this is called inside your main runAppPageScripts function
+initGoals();
+
+
+
 
             // General fitness tests listeners
             document.querySelectorAll('.test-card').forEach(card => card.addEventListener("click", handleTestCardClick));
