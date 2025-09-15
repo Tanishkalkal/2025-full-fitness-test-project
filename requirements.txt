@@ -1,0 +1,9 @@
+flask==2.3.3
+mediapipe==0.10.14
+opencv-python==4.8.1.78
+numpy==1.25.0
+scikit-image
+Pillow
+google-generativeai
+Flask 
+Flask-Cors

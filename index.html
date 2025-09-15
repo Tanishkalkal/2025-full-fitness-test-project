@@ -1,4 +1,3 @@
-<!-- conflict resolution -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,15 +33,15 @@
             transform: scale(1);
             opacity: 1;
         }
-        
+       
         .feature-card {
             transition: transform 0.2s ease-in-out;
         }
-        
+       
         .feature-card:hover {
             transform: translateY(-8px);
         }
-        
+       
         .button-shadow {
             box-shadow: 0 4px 14px 0 rgba(255, 111, 0, 0.39);
         }
@@ -53,7 +52,7 @@
             background-size: 400% 400%;
             animation: gradient-animation 15s ease infinite;
         }
-        
+       
         @keyframes gradient-animation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -94,7 +93,7 @@
             z-index: 0;
             opacity: 0.8;
         }
-        
+       
         /* Specific animations for each element to add variety */
         .bg-element-1 { top: 10%; left: 5%; animation-duration: 12s; }
         .bg-element-2 { top: 50%; right: 10%; animation-duration: 14s; animation-delay: 2s; }
@@ -102,7 +101,7 @@
         .bg-element-4 { top: 30%; left: 40%; animation-duration: 13s; animation-delay: 1s; }
         .bg-element-5 { bottom: 5%; right: 20%; animation-duration: 11s; animation-delay: 3s; }
         .bg-element-6 { top: 80%; left: 70%; animation-duration: 15s; animation-delay: 5s; }
-        
+       
         /* Full screen modal for test details */
         .test-detail-modal-container {
             transition: opacity 0.3s ease-out;
@@ -200,7 +199,7 @@
             box-shadow: 0 4px 10px rgba(251, 146, 60, 0.4);
             transform: scale(1.05);
         }
-        
+       
         .graph-filter-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -335,7 +334,7 @@
      <!-- Landing Page Navbar -->
 <header class="fixed top-0 w-full z-50 bg-white shadow-lg">
   <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-    
+   
     <!-- Logo -->
     <div class="flex items-center space-x-2">
       <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none"
@@ -523,7 +522,7 @@
                 </svg>
             </div>
         </div>
-        
+       
         <!-- Top Navigation Bar for App Page -->
         <header class="bg-white shadow-sm sticky top-0 z-50">
             <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
@@ -538,7 +537,7 @@
                         <span class="text-xl font-bold text-orange-600">SAI Sports Analyzer</span>
                     </div>
                 </div>
-                
+               
                 <div class="flex items-center space-x-6">
                     <a href="#" class="hidden sm:inline-block text-gray-600 hover:text-orange-600 font-medium transition duration-300">About us</a>
                     <a href="#" class="hidden sm:inline-block text-gray-600 hover:text-orange-600 font-medium transition duration-300">Connect with coaches</a>
@@ -555,7 +554,7 @@
         </header>
 
         <main id="main-content" class="container mx-auto px-4 py-8 space-y-12 relative z-10">
-            
+           
             <!-- Daily Streaks Section (Updated) -->
             <section>
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
@@ -576,7 +575,7 @@
                     </div>
                 </div>
             </section>
-            
+           
             <!-- Performance Analysis Section -->
             <section>
                  <div class="bg-white rounded-xl shadow-lg p-6 text-center">
@@ -587,7 +586,7 @@
                      </button>
                  </div>
              </section>
-            
+           
                         <!-- My Training Goals Section -->
             <section id="training-goals">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
@@ -644,7 +643,7 @@
                         <h3 class="font-semibold text-lg text-gray-900 mb-2">Push Ups</h3>
                         <p class="text-sm text-gray-500">Assess your upper body strength and endurance.</p>
                     </div>
-                    
+                   
                     <!-- Vertical Height Jump Card -->
                     <div class="test-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center cursor-pointer" data-test-name="Vertical Height Jump">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-orange-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3L5 21"/><path d="M19 3L19 21"/><path d="M12 13L12 5"/><path d="M9 8L12 5L15 8"/></svg>
@@ -741,7 +740,7 @@
             &copy; 2024 Sports Authority of India. All rights reserved.
         </footer>
     </div>
-    
+   
        <!-- Profile Modal Overlay (new) -->
 <div id="profile-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
     <div class="modal-content-container bg-white rounded-3xl shadow-2xl p-8 w-11/12 max-w-sm relative">
@@ -933,7 +932,36 @@
             </button>
             <h2 id="test-title" class="text-2xl font-bold text-gray-900 mb-6 text-center">Test Title</h2>
 
+            <!-- Tabs Navigation -->
+            <div class="flex border-b border-gray-200 mb-6">
+                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="evaluation">Evaluation</button>
+                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="history">Score History</button>
+                <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-600 transition duration-300" data-tab-name="leaderboard">Leaderboard</button>
+            </div>
 
+            <!-- This is the new Evaluation Tab Content -->
+<div id="evaluation-tab-content" class="tab-content space-y-4">
+    <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Record Your Performance</h3>
+        <!-- Video Container -->
+        <div class="relative bg-black rounded-lg overflow-hidden aspect-video">
+            <video id="camera-feed" class="w-full h-full" autoplay muted playsinline></video>
+            <video id="video-preview" class="w-full h-full hidden" controls></video>
+            <!-- Recording Indicator -->
+            <div id="rec-indicator" class="hidden absolute top-4 left-4 flex items-center space-x-2 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold recording-indicator">
+                <div class="w-3 h-3 bg-white rounded-full"></div>
+                <span>REC</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls Container -->
+    <div id="controls-container" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <!-- Initial State: Start Recording -->
+        <button id="start-recording-btn" class="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition flex items-center justify-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.55a1 1 0 011.45.89V18a1 1 0 01-1.45.89L15 15M4 6h11a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" /></svg>
+            <span>Start Recording</span>
+        </button>
 
         <!-- Recording State: Stop Recording -->
         <button id="stop-recording-btn" class="w-full sm:w-auto hidden bg-red-600 text-white font-bold py-3 px-8 rounded-full hover:bg-red-700 transition flex items-center justify-center space-x-2">
@@ -1013,7 +1041,7 @@
 
             <div id="leaderboard-tab-content" class="tab-content hidden space-y-6">
                 <h3 class="text-lg font-semibold text-gray-800">Leaderboard</h3>
-                
+               
                 <!-- Filter buttons -->
                 <div class="flex space-x-2">
                     <button id="filter-country" class="px-4 py-2 text-sm font-medium rounded-lg bg-orange-600 text-white">Country</button>
@@ -1114,7 +1142,7 @@
              </div>
          </div>
      </div>
-    
+   
     <!-- Game Test Modal (new) -->
     <div id="game-test-modal-overlay" class="modal-container hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex justify-center items-center">
         <div class="modal-content-container bg-white rounded-xl shadow-xl p-8 w-11/12 max-w-4xl relative max-h-[95vh] overflow-y-auto">
@@ -1129,7 +1157,7 @@
                 <div id="game-tests-list-container" class="lg:w-1/2 space-y-4">
                     <!-- Tests will be loaded here dynamically -->
                 </div>
-                
+               
                 <!-- Leaderboard on the right -->
                 <div id="game-test-leaderboard-container" class="lg:w-1/2 space-y-4 hidden">
                     <h3 id="test-leaderboard-title" class="text-xl font-bold text-gray-900">Leaderboard: </h3>
@@ -1159,14 +1187,14 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             <h2 id="event-details-title" class="text-3xl font-bold text-gray-900 mb-6 text-center">Event Details</h2>
-            
+           
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Left Column: Description & Facts -->
                 <div class="lg:w-1/3 bg-gray-50 p-6 rounded-lg shadow-inner">
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">About the Tournament</h3>
                     <p id="event-description-text" class="text-gray-600 mb-4 text-sm"></p>
                     <div id="event-level-badge" class="mb-4"></div>
-                    
+                   
                     <h4 class="text-lg font-semibold text-gray-800 mb-2">Quick Facts</h4>
                     <ul id="event-facts-list" class="space-y-2 text-sm">
                         <!-- Facts will be dynamically inserted here -->
@@ -1197,7 +1225,7 @@
             </button>
             <h2 id="sport-details-title" class="text-3xl font-bold text-gray-900 mb-2 text-center">Sport Details</h2>
             <p id="sport-details-description" class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Description of the sport.</p>
-            
+           
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Parameters Section -->
                 <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
@@ -1285,7 +1313,7 @@
         const testGenderError = document.getElementById('test-gender-error-message');
         const videoFileError = document.getElementById('video-file-error-message');
         const uploadLoading = document.getElementById('upload-loading');
-        
+       
         // New elements for results display
         const evaluationResultsSection = document.getElementById('evaluation-results-section');
         const evalJumpHeight = document.getElementById('eval-jumpHeight');
@@ -1307,7 +1335,7 @@
         const gameTestLeaderboardContainer = document.getElementById('game-test-leaderboard-container');
         const testLeaderboardTitle = document.getElementById('test-leaderboard-title');
         const gameLeaderboardBody = document.getElementById('game-leaderboard-body');
-        
+       
         // Profile modal elements
         const profileName = document.getElementById('profile-name');
         const profileAge = document.getElementById('profile-age');
@@ -1331,7 +1359,7 @@
         const sportDetailsDescription = document.getElementById('sport-details-description');
         const sportParametersList = document.getElementById('sport-parameters-list');
         const sportRecordsContainer = document.getElementById('sport-records-container');
-        
+       
         // New Performance Analysis Modal elements
         const performanceAnalysisModal = document.getElementById('performance-analysis-modal');
         const closeAnalysisModalBtn = document.getElementById('close-analysis-modal');
@@ -1354,39 +1382,39 @@
 
         const scoreHistoryData = {
             "Sit Ups": [
-                { date: "2024-03-01", score: 45, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "Good pace, try to control the descent more." }, 
+                { date: "2024-03-01", score: 45, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "Good pace, try to control the descent more." },
                 { date: "2024-03-03", score: 48, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "Improvement in consistency." },
-                { date: "2024-03-05", score: 50, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "Excellent form! Keep it up." }, 
+                { date: "2024-03-05", score: 50, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "Excellent form! Keep it up." },
                 { date: "2024-03-08", score: 52, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "Slight fatigue towards the end." },
-                { date: "2024-03-12", score: 51, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "A small dip, focus on recovery." }, 
+                { date: "2024-03-12", score: 51, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "A small dip, focus on recovery." },
                 { date: "2024-03-15", score: 55, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "New personal best! Great work." },
                 { date: "2024-03-20", score: 58, videoUrl: "https://www.youtube.com/embed/1fbU_MkV7NE", comments: "Fantastic performance, very strong." }
             ],
             "Push Ups": [
-                { date: "2024-03-02", score: 30, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Keep your back straight." }, 
+                { date: "2024-03-02", score: 30, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Keep your back straight." },
                 { date: "2024-03-04", score: 32, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Better depth this time." },
-                { date: "2024-03-07", score: 35, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Strong and steady." }, 
+                { date: "2024-03-07", score: 35, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Strong and steady." },
                 { date: "2024-03-10", score: 36, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Power output is increasing." },
-                { date: "2024-03-14", score: 38, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Great consistency in your reps." }, 
+                { date: "2024-03-14", score: 38, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Great consistency in your reps." },
                 { date: "2024-03-18", score: 40, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Solid milestone reached." },
                 { date: "2024-03-22", score: 42, videoUrl: "https://www.youtube.com/embed/IODxDxX7oi4", comments: "Excellent work on maintaining form." }
             ],
             "Vertical Height Jump": [
-                { date: "2024-02-10", score: 40, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Focus on explosive power from your legs." }, 
+                { date: "2024-02-10", score: 40, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Focus on explosive power from your legs." },
                 { date: "2024-02-15", score: 42, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Good use of arm swing." },
-                { date: "2024-02-20", score: 41, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Landing was a bit off-balance." }, 
+                { date: "2024-02-20", score: 41, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Landing was a bit off-balance." },
                 { date: "2024-02-25", score: 44, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Great improvement in height." },
-                { date: "2024-03-01", score: 48, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Explosiveness is clearly better." }, 
+                { date: "2024-03-01", score: 48, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Explosiveness is clearly better." },
                 { date: "2024-03-05", score: 50, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Fantastic jump! A new record." },
                 { date: "2024-03-10", score: 52, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Consistent and powerful." },
                 { date: "2024-03-15", score: 55, videoUrl: "https://www.youtube.com/embed/oG7kLqS7qYg", comments: "Amazing height, professional level." }
             ],
             "Sit and Reach": [
-                { date: "2024-03-01", score: 15, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Good starting point." }, 
+                { date: "2024-03-01", score: 15, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Good starting point." },
                 { date: "2024-03-04", score: 16, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Slight improvement, keep stretching." },
-                { date: "2024-03-06", score: 18, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Noticeable increase in flexibility." }, 
+                { date: "2024-03-06", score: 18, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Noticeable increase in flexibility." },
                 { date: "2024-03-09", score: 17, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Maintain consistent practice." },
-                { date: "2024-03-13", score: 20, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Great job breaking the 20cm mark." }, 
+                { date: "2024-03-13", score: 20, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Great job breaking the 20cm mark." },
                 { date: "2024-03-17", score: 22, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Flexibility is much better." },
                 { date: "2024-03-21", score: 23, videoUrl: "https://www.youtube.com/embed/TS1z-A0o3-k", comments: "Excellent result." }
             ]
@@ -1746,7 +1774,7 @@
                 runAppPageScripts();
             });
         });
-        
+       
         const backToLandingBtn = document.getElementById('back-to-landing-btn');
         if (backToLandingBtn) {
             backToLandingBtn.addEventListener('click', () => {
@@ -1774,7 +1802,7 @@
                 showModal(profileModal);
             });
         }
-        
+       
         closeProfileModalBtn.addEventListener("click", () => hideModal(profileModal));
         closeLoginModalBtn.addEventListener("click", () => hideModal(loginModal));
         closeSignupModalBtn.addEventListener("click", () => hideModal(signupModal));
@@ -1801,11 +1829,11 @@
             aiFeedbackContainer.classList.add('hidden');
             resultsDisplay.classList.add('hidden');
         });
-        
+       
         closeMessageBtn.addEventListener('click', () => {
             hideModal(messageBox);
         });
-        
+       
         function showMessage(message, type = 'info') {
             messageText.textContent = message;
             if (type === 'error') {
@@ -1879,7 +1907,7 @@
                 return true;
             }
         }
-        
+       
         function validateFile(fileInput, errorMessageElement) {
             if (fileInput.files.length === 0) {
                 errorMessageElement.classList.remove("hidden");
@@ -1900,7 +1928,7 @@
                 }
             });
         }
-        
+       
         if (signupForm) {
             signupForm.addEventListener("submit", (e) => {
                 e.preventDefault();
@@ -1985,7 +2013,7 @@
         if (document.getElementById("country")) document.getElementById("country").addEventListener("input", () => validateField(document.getElementById("country"), document.getElementById("country-error-message")));
         if (document.getElementById("district")) document.getElementById("district").addEventListener("input", () => validateField(document.getElementById("district"), document.getElementById("district-error-message")));
         if (document.getElementById("address")) document.getElementById("address").addEventListener("input", () => validateField(document.getElementById("address"), document.getElementById("address-error-message")));
-        
+       
         // New event listeners for the evaluation form fields
         if (testAgeInput) testAgeInput.addEventListener("input", () => validateField(testAgeInput, testAgeError));
         if (testHeightInput) testHeightInput.addEventListener("input", () => validateField(testHeightInput, testHeightError));
@@ -2026,22 +2054,22 @@
                     });
                     streakSliderContainer.appendChild(button);
                 });
-                
+               
                 // Initial render with the first test in the list
                 if (testNames.length > 0) {
                     streakSliderContainer.querySelector('.streak-slider-btn').classList.add('active');
                     renderDailyStreaks(testNames[0]);
                 }
             }
-            
+           
             function renderDailyStreaks(testName) {
                 const streaksContainer = document.getElementById('daily-streaks-container');
                 const currentStreakCount = document.getElementById('current-streak-count');
-                
+               
                 const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
                 const today = new Date().getDay(); // Sunday = 0, Monday = 1, etc.
                 const streakData = dailyStreakData[testName] || [false, false, false, false, false, false, false];
-                
+               
                 streaksContainer.innerHTML = '';
                 let currentConsecutiveStreak = 0;
 
@@ -2053,7 +2081,7 @@
                         break; // Streak broken
                     }
                 }
-                
+               
                 streakData.forEach((isActive, index) => {
                     const dayElement = document.createElement('div');
                     dayElement.className = 'text-center';
@@ -2061,7 +2089,7 @@
                     const circle = document.createElement('div');
                     circle.className = `streak-day w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${isActive ? 'active' : 'bg-gray-200 text-gray-400'}`;
                     circle.textContent = days[index];
-                    
+                   
                     dayElement.appendChild(circle);
 
                     if (index === today) {
@@ -2073,7 +2101,7 @@
 
                     streaksContainer.appendChild(dayElement);
                 });
-                
+               
                 currentStreakCount.textContent = `${currentConsecutiveStreak} ${currentConsecutiveStreak === 1 ? 'Day' : 'Days'}`;
             }
 
@@ -2114,11 +2142,11 @@
                 currentSlide = (currentSlide + 1) % majorEventKeys.length;
                 showSlide();
             };
-            
+           
             showSlide();
             setInterval(nextSlide, 5000);
             setupStreakSlider(); // Initialize daily streaks slider
-            
+           
                 // --- Training Goals Logic (V3 - Date Selector UI) ---
 const goalInput = document.getElementById('goal-input');
 const goalCustomDateInput = document.getElementById('goal-custom-date-input');
@@ -2169,7 +2197,7 @@ function setupDateSelector() {
             <div class="font-bold">${date.getDate()}</div>
             <div class="text-xs">${date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
         `;
-        
+       
         button.addEventListener('click', () => {
             selectedDate = dateString;
             goalCustomDateInput.classList.add('hidden');
@@ -2178,7 +2206,7 @@ function setupDateSelector() {
         });
         dateButtonsContainer.appendChild(button);
     }
-    
+   
     // Add custom date button
     const customButton = document.createElement('button');
     customButton.className = 'date-selector-btn';
@@ -2197,7 +2225,7 @@ function setupDateSelector() {
         updateActiveDateButton();
         renderGoals();
     });
-    
+   
     updateActiveDateButton();
 }
 
@@ -2248,7 +2276,7 @@ function renderGoals() {
 
 function renderDailyGoals() {
     const goalsForSelectedDate = goalsData.daily.filter(g => g.date === selectedDate);
-    
+   
     if (goalsForSelectedDate.length === 0) {
         goalsListContainer.innerHTML = `<p class="text-gray-500 text-center">No goals for ${getFriendlyDate(selectedDate)}. Add one!</p>`;
         return;
@@ -2431,7 +2459,7 @@ function setupVideoRecorder() {
         try {
             mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             cameraFeed.srcObject = mediaStream;
-            
+           
             mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
 
             mediaRecorder.ondataavailable = (event) => {
@@ -2501,7 +2529,7 @@ function handleTestCardClick(e) {
     testTitle.textContent = testName;
     mainContent.classList.add("hidden");
     animatedBackground.classList.add("hidden");
-    
+   
     showModal(testDetailModal);
     setupVideoRecorder(); // This correctly sets up the video recorder every time a card is clicked
 
@@ -2511,7 +2539,7 @@ function handleTestCardClick(e) {
         btn.classList.add("border-transparent", "text-gray-500");
     });
     document.querySelectorAll('.tab-content').forEach(content => content.classList.add("hidden"));
-    
+   
     const evaluationTabButton = document.querySelector('.tab-btn[data-tab-name="evaluation"]');
     const evaluationTabContent = document.getElementById("evaluation-tab-content");
 
@@ -2519,7 +2547,7 @@ function handleTestCardClick(e) {
         evaluationTabButton.classList.add("border-orange-600", "text-orange-600");
         evaluationTabContent.classList.remove("hidden");
     }
-    
+   
     loadLeaderboard("country");
 }
 
@@ -2542,7 +2570,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
 });
 
 
-            
+           
 
            
             // Game-specific tests modal logic
@@ -2551,9 +2579,9 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                     const sportName = e.currentTarget.dataset.sportName;
                     const sportDetails = gameSpecificTestDetails[sportName];
                     gameTestTitle.textContent = sportDetails.name;
-                    
+                   
                     renderGameTests(sportDetails.tests, sportName);
-                    
+                   
                     mainContent.classList.add("hidden");
                     animatedBackground.classList.add("hidden");
                     showModal(gameTestModal);
@@ -2588,7 +2616,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                         const testName = e.currentTarget.dataset.testName;
                         const sportName = e.currentTarget.dataset.sportName;
                         const leaderboard = gameSpecificTestDetails[sportName].leaderboards[testName];
-                        
+                       
                         renderGameLeaderboard(testName, leaderboard);
                     });
                 });
@@ -2613,19 +2641,19 @@ backFromTestDetailsBtn.addEventListener("click", () => {
             tabButtons.forEach((button) => {
                 button.addEventListener("click", (e) => {
                     const tabName = e.target.getAttribute("data-tab-name");
-                    
+                   
                     tabButtons.forEach((btn) => {
                         btn.classList.remove("border-orange-600", "text-orange-600");
                         btn.classList.add("border-transparent", "text-gray-500");
                     });
-                    
+                   
                     tabContents.forEach((content) => content.classList.add("hidden"));
-                    
+                   
                     e.target.classList.remove("border-transparent", "text-gray-500");
                     e.target.classList.add("border-orange-600", "text-orange-600");
-                    
+                   
                     document.getElementById(`${tabName}-tab-content`).classList.remove("hidden");
-                    
+                   
                     // If history tab is clicked, render graph and table
                     if (tabName === 'history') {
                         const currentTestName = document.getElementById('test-title').textContent;
@@ -2642,7 +2670,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                 });
             });
 
-            
+           
             aiCoachBtn.addEventListener('click', async () => {
                 if (!lastEvaluationResults) {
                     showMessage("Please submit an evaluation or select a score from history first.", "info");
@@ -2707,7 +2735,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                         }
                     }
                 }
-                
+               
                 if (response && response.ok) {
                     const result = await response.json();
                     const text = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate feedback right now.";
@@ -2717,7 +2745,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                     aiFeedbackText.textContent = 'Sorry, I couldn\'t generate feedback right now. Please try again later.';
                     aiFeedbackContainer.classList.remove('hidden');
                 }
-                
+               
                 aiLoading.classList.add('hidden');
                 aiCoachBtn.disabled = false;
             });
@@ -2747,7 +2775,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                 if (!tableBody || !cardsContainer) return;
 
                 tableBody.innerHTML = "";
-                cardsContainer.innerHTML = ""; 
+                cardsContainer.innerHTML = "";
 
                 data.forEach(user => {
                     // Create Table Row (for desktop)
@@ -2799,13 +2827,13 @@ backFromTestDetailsBtn.addEventListener("click", () => {
             }
 
             renderMainLeaderboard(mainLeaderboardData);
-            
+           
             const leaderboardSearch = document.getElementById("leaderboard-search");
             if(leaderboardSearch) leaderboardSearch.addEventListener("input", applyMainLeaderboardFilters);
-            
+           
             const leaderboardFilter = document.getElementById("leaderboard-filter");
             if(leaderboardFilter) leaderboardFilter.addEventListener("change", applyMainLeaderboardFilters);
-            
+           
             // New profile modal logic
             const dummyProfileData = {
                 name: "Virat Kohli",
@@ -2833,7 +2861,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
 
             // Bind profile button clicks to open the modal
             document.getElementById('profile-menu-button-app').addEventListener('click', updateProfileModal);
-            
+           
             const profileMenuButton = document.getElementById('profile-menu-button');
             if (profileMenuButton) {
                 profileMenuButton.addEventListener('click', updateProfileModal);
@@ -2849,12 +2877,12 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                 renderPerformanceRadarChart();
                 showModal(performanceAnalysisModal);
             });
-    
+   
             closeAnalysisModalBtn.addEventListener('click', () => {
                 hideModal(performanceAnalysisModal);
             });
         }
-        
+       
         // --- SCORE HISTORY GRAPH AND TABLE ---
         function renderScoreHistoryGraph(testName, duration) {
             const data = scoreHistoryData[testName] || [];
@@ -2920,7 +2948,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                 }
             });
         }
-        
+       
         function populateHistoryTable(testName) {
             const tableBody = document.getElementById('history-table-body');
             const data = scoreHistoryData[testName] || [];
@@ -2946,7 +2974,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                 `;
                 row.addEventListener('click', () => {
                     const testName = document.getElementById("test-title").textContent;
-                    
+                   
                     lastEvaluationResults = {
                         testName: testName,
                         score: item.score,
@@ -2979,17 +3007,17 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                 tableBody.appendChild(row);
             });
         }
-        
+       
         function renderPerformanceComparisonRadar() {
             const ctx = document.getElementById('performanceComparisonChart').getContext('2d');
             const labels = Object.keys(userPerformanceData);
             const userData = Object.values(userPerformanceData);
             const benchmarkData = Object.values(nationalBenchmarkData);
-        
+       
             if (performanceComparisonChart) {
                 performanceComparisonChart.destroy();
             }
-        
+       
             performanceComparisonChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
@@ -3053,11 +3081,11 @@ backFromTestDetailsBtn.addEventListener("click", () => {
             const labels = Object.keys(userPerformanceData);
             const userData = Object.values(userPerformanceData);
             const benchmarkData = Object.values(nationalBenchmarkData);
-        
+       
             if (overallPerformanceChart) {
                 overallPerformanceChart.destroy();
             }
-        
+       
             overallPerformanceChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
@@ -3120,10 +3148,10 @@ backFromTestDetailsBtn.addEventListener("click", () => {
             if (e.target.classList.contains('graph-filter-btn')) {
                 const duration = e.target.dataset.duration;
                 const currentTestName = document.getElementById('test-title').textContent;
-                
+               
                 document.querySelectorAll('#graph-filters .graph-filter-btn').forEach(btn => btn.classList.remove('active'));
                 e.target.classList.add('active');
-                
+               
                 renderScoreHistoryGraph(currentTestName, duration);
             }
         });
@@ -3144,7 +3172,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
             currentMajorEvent = eventKey; // Store the current event
             const eventData = majorEventsData[eventKey];
             eventDetailsTitle.textContent = eventData.name;
-            
+           
             // Populate description, level, and facts
             document.getElementById('event-description-text').textContent = eventData.description;
             document.getElementById('event-level-badge').innerHTML = `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-blue-100 text-blue-800">${eventData.level}</span>`;
@@ -3212,7 +3240,7 @@ backFromTestDetailsBtn.addEventListener("click", () => {
                     </div>
                 `).join('')}
             `;
-            
+           
             hideModal(eventDetailsModal);
             showModal(sportDetailsModal);
         }
@@ -3373,5 +3401,3 @@ setTimeout(() => {
 </script>
 </body>
 </html>
-
-
